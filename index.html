@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfaf7">
+  <meta name="description" content="An interactive botanical wedding invitation for Masoom and Meeza.">
+  <title>Masoom & Meeza — Wedding Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="paper-noise" aria-hidden="true"></div>
+
+  <section class="envelope-cover" id="envelopeCover" aria-label="Open wedding invitation">
+    <div class="cover-stage">
+      <div class="cover-date-top" id="coverDateTop">12.04.27</div>
+      <button class="cover-envelope" id="coverEnvelope" type="button" aria-label="Open Masoom and Meeza's wedding invitation">
+        <span class="cover-back"></span>
+        <span class="cover-letter"><small id="coverKicker">A LITTLE NOTE FOR YOU</small><strong id="coverNames">Masoom <i>&amp;</i> Meeza</strong><span class="cover-date" id="coverDate">12 · 04 · 2027</span></span>
+        <span class="cover-front-left"></span><span class="cover-front-right"></span><span class="cover-front-bottom"></span><span class="cover-flap"></span>
+        <span class="cover-seal"><span id="coverInitials">M<br><i>&amp;</i><br>M</span></span>
+        <span class="cover-invited">You are invited</span>
+      </button>
+      <img class="cover-bouquet" src="assets/floral-spray.webp" alt="Blush pink and ivory wedding flowers">
+      <button class="cover-polaroid" id="coverPolaroid" type="button" aria-label="Open the wedding invitation">
+        <img src="assets/wedding-couple.jpg" alt="Couple embracing on their wedding day"><span aria-hidden="true"></span>
+      </button>
+      <button class="cover-open-text" id="coverOpenText" type="button"><span id="coverPrompt">CLICK TO OPEN</span></button>
+    </div>
+  </section>
+
+  <main class="opened-page" id="openedPage" hidden>
+    <section class="scrapbook-wrap" aria-label="Interactive wedding invitation collage">
+      <div class="scrapbook" id="scrapbook">
+        <a class="collage-envelope interactive-paper" id="resetEnvelopeTop" href="#envelopeCover" data-action="back-to-envelope" aria-label="Return to the closed envelope">
+          <span class="closed-env-flap"></span><span class="closed-env-fold-left"></span><span class="closed-env-fold-right"></span><span class="closed-env-fold-bottom"></span><span class="closed-env-monogram">M</span>
+        </a>
+
+        <button class="green-backing hotspot" type="button" data-modal="gallery" aria-label="Open the wedding photo gallery"><span class="backing-landscape"></span><span class="backing-fold"></span></button>
+        <button class="open-letter-panel hotspot" type="button" data-modal="invitation" aria-label="Read the wedding invitation">
+          <span class="open-letter-inner"></span><span class="open-letter-flap"></span><span class="open-letter-left"></span><span class="open-letter-right"></span>
+        </button>
+
+        <button class="anthurium-hotspot hotspot" type="button" data-modal="gallery" aria-label="Open floral photo gallery"><img src="assets/anthurium-pair.webp" alt="Pink anthurium flowers"></button>
+
+        <button class="polaroid polaroid-hand hotspot" type="button" data-modal="gallery" aria-label="View the wedding photo gallery"><img id="handPhoto" src="assets/hand-detail.jpg" alt="Wedding detail photograph"><span>OUR LITTLE DETAILS</span></button>
+
+        <a class="date-card hotspot" href="details/" data-page="details/" aria-label="Open wedding date and event details">
+          <span class="date-seal">M<span>♡</span>M</span><span class="date-frame"></span><span class="date-ordinal" id="dateOrdinal">12<sup>TH</sup></span><span class="date-month" id="dateMonth">April</span><span class="date-year" id="dateYear">2027</span><span class="date-time" id="dateTime">AT 1:00 PM</span><span class="date-place" id="datePlace">LAKE COMO,<br>ITALY</span>
+        </a>
+
+        <button class="invite-medallion hotspot" type="button" data-modal="invitation" aria-label="Open the full wedding invitation">
+          <span class="lace-ring"></span><span class="medallion-florals" aria-hidden="true"></span><span class="invite-words">JOIN US FOR<br>THE WEDDING OF</span><span class="invite-names" id="medallionNames">Masoom<br>&amp; Meeza</span>
+        </button>
+
+        <button class="flower-link flower-left hotspot" type="button" data-modal="gallery" aria-label="Open floral gallery"><img src="assets/floral-spray.webp" alt="Blush roses and white flowers"></button>
+
+        <button class="location-card hotspot" id="locationCard" type="button" data-action="location" aria-label="Open Lake Como location in maps"><span class="location-photo"><img id="locationPhoto" src="assets/lake-como.jpg" alt="Italian lakeside village"></span><span class="location-label">LOCATION</span></button>
+
+        <a class="swan-details hotspot" href="details/" data-page="details/" aria-label="Click for wedding details">
+          <svg class="swan-svg" viewBox="0 0 300 280" role="img" aria-hidden="true" preserveAspectRatio="none">
+            <path class="swan-body" d="M24 157 C5 143 8 123 27 116 C45 109 57 130 78 129 C94 128 104 116 118 105 C91 112 74 109 83 99 C96 85 121 75 143 76 C126 68 108 64 118 57 C134 48 164 60 184 76 C169 55 156 35 164 19 C171 4 192 1 210 10 C226 18 238 34 236 50 C235 62 224 70 213 62 L205 52 C199 45 202 37 209 35 C201 25 188 30 187 43 C186 58 200 76 215 98 C239 132 263 160 258 192 C253 229 218 250 176 253 C127 257 73 240 42 213 C26 199 18 181 24 157 Z"/>
+            <path class="swan-wing" d="M48 165 C73 139 108 130 139 141 C162 149 181 165 198 182 C172 175 147 177 124 188 C94 202 65 188 48 165Z"/>
+            <path class="swan-line" d="M209 42 C210 61 222 80 236 100 C255 129 270 157 264 184 C257 216 227 229 192 233 C144 239 91 223 59 199 C42 186 33 168 35 155"/>
+            <path class="swan-beak" d="M229 22 L253 30 L234 38 Q229 32 229 22Z"/>
+          </svg>
+          <span class="swan-copy"><strong>Details</strong><small>CLICK HERE</small></span>
+        </a>
+
+        <button class="flower-link flower-right hotspot" type="button" data-modal="gallery" aria-label="Open floral gallery"><img src="assets/floral-spray.webp" alt="Blush roses and trailing greenery"></button>
+
+        <button class="rsvp-badge hotspot" type="button" data-modal="rsvp" aria-label="RSVP to the wedding">
+          <svg viewBox="0 0 220 190" aria-hidden="true"><path d="M110 6 L129 20 L152 15 L161 35 L183 44 L177 65 L198 81 L184 99 L191 119 L170 129 L169 151 L146 153 L132 174 L110 163 L88 174 L74 153 L51 151 L50 129 L29 119 L36 99 L22 81 L43 65 L37 44 L59 35 L68 15 L91 20Z"/></svg>
+          <span class="rsvp-copy"><small>KINDLY</small><strong>Rsvp</strong><small>CLICK HERE</small></span>
+        </button>
+
+        <a class="story-photo hotspot" href="love-story/" data-page="love-story/" aria-label="Read our love story"><span class="photo-oval"><img id="couplePhoto" src="assets/wedding-couple.jpg" alt="Wedding couple photograph"></span></a>
+        <a class="story-link hotspot" href="love-story/" data-page="love-story/"><span>CLICK FOR OUR</span><strong>Love Story</strong></a>
+
+        <button class="flower-link flower-lower-left hotspot" type="button" data-modal="gallery" aria-label="Open floral gallery"><img src="assets/floral-spray.webp" alt="Pink and ivory wedding flowers"></button>
+        <button class="flower-link flower-lower-right hotspot" type="button" data-modal="gallery" aria-label="Open floral gallery"><img src="assets/floral-spray.webp" alt="Pink and ivory wedding flowers"></button>
+      </div>
+    </section>
+
+    <footer class="collage-footer">
+      <button class="doves-button" type="button" data-modal="invitation" aria-label="Open the wedding invitation">
+        <svg viewBox="0 0 100 62" aria-hidden="true"><path d="M8 35 C2 23 12 15 21 23 C26 27 27 34 25 40 C32 31 34 24 30 15 C43 19 46 31 40 40 C35 48 24 50 18 44 C15 42 12 39 8 35Z M92 35 C98 23 88 15 79 23 C74 27 73 34 75 40 C68 31 66 24 70 15 C57 19 54 31 60 40 C65 48 76 50 82 44 C85 42 88 39 92 35Z M26 45 Q50 57 74 45 M45 8 L48 3 L51 8 L57 9 L52 13 L53 18 L48 15 L43 18 L44 13 L39 9Z"/></svg>
+      </button>
+      <p>WITH LOVE</p>
+      <button class="footer-names hotspot" type="button" data-modal="invitation" id="footerNames">Masoom &amp; Meeza</button>
+      <p class="contact-note">For any questions, please contact us at:</p>
+      <a class="contact-email" id="contactEmail" href="mailto:hello@example.com">hello@example.com</a>
+      <button class="back-to-envelope" type="button" data-action="back-to-envelope">BACK TO ENVELOPE</button>
+    </footer>
+  </main>
+
+  <dialog class="content-dialog" id="contentDialog" aria-labelledby="dialogTitle">
+    <button class="dialog-close" id="dialogClose" type="button" aria-label="Close dialog">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

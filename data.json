@@ -1,0 +1,65 @@
+{
+  "couple": {
+    "partnerOne": "Masoom",
+    "partnerTwo": "Meeza",
+    "initials": "M · M",
+    "intro": "Together with our families, we invite you to join us for the wedding celebration of Masoom and Meeza.",
+    "story": "A story of friendship, laughter, and finding home in one another. We are so grateful to celebrate the start of our next chapter with the people we love most.",
+    "contactEmail": "hello@example.com"
+  },
+  "wedding": {
+    "date": "2027-04-12T13:00:00+02:00",
+    "displayDate": "12 April 2027",
+    "ordinalDate": "12th",
+    "month": "April",
+    "year": "2027",
+    "time": "At 1:00 PM",
+    "rsvpDeadline": "31 March 2027",
+    "city": "Lake Como, Italy",
+    "ceremony": {
+      "title": "Wedding Ceremony",
+      "time": "1:00 PM",
+      "venue": "Villa del Balbiano",
+      "address": "Ossuccio, Lake Como, Italy"
+    },
+    "reception": {
+      "title": "Dinner & Celebration",
+      "time": "5:00 PM",
+      "venue": "Lake Como",
+      "address": "Lake Como, Italy"
+    },
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lake+Como+Italy"
+  },
+  "design": {
+    "envelopeKicker": "A LITTLE NOTE FOR YOU",
+    "openPrompt": "CLICK ENVELOPE TO OPEN",
+    "colorSage": "#828b6a",
+    "colorRose": "#d8959d",
+    "colorPaper": "#f7f4eb"
+  },
+  "images": {
+    "flowerSpray": "assets/floral-spray.webp",
+    "anthuriums": "assets/anthurium-pair.webp",
+    "hand": "https://picsum.photos/seed/wedding-hands/800/1100",
+    "location": "https://picsum.photos/seed/lake-location/900/1100",
+    "couple": "https://picsum.photos/seed/wedding-couple/900/1100",
+    "envelopeLiner": "https://picsum.photos/seed/garden-liner/1000/700"
+  },
+  "gallery": [
+    {
+      "src": "https://picsum.photos/seed/wedding-gallery-1/900/1100",
+      "alt": "Wedding gallery photograph 1",
+      "caption": "The little details"
+    },
+    {
+      "src": "https://picsum.photos/seed/wedding-gallery-2/900/1100",
+      "alt": "Wedding gallery photograph 2",
+      "caption": "A place to remember"
+    },
+    {
+      "src": "https://picsum.photos/seed/wedding-gallery-3/900/1100",
+      "alt": "Wedding gallery photograph 3",
+      "caption": "Our story"
+    }
+  ]
+}
