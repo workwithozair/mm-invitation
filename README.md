@@ -1,4 +1,4 @@
-# Masoom & Meeza — Responsive Wedding Invitation
+# 
 
 A responsive HTML/CSS/JavaScript recreation of the collage-style wedding invitation shown in the reference screenshots. The desktop collage scales up with the viewport instead of remaining capped at a mobile-sized width. Its type sizes are tied to the collage canvas using CSS container units, so the envelope, postcard, date card, floral elements, swan Details button, RSVP badge, and oval story photo scale together.
 
