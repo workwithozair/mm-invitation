@@ -42,4 +42,11 @@ Deploy the folder to GitHub Pages, Netlify, or Cloudflare Pages. Keep `index.htm
 
 - Updated swan hit-testing so transparent areas of the swan do not block collage links; Details and Love Story cards now have real `href` destinations as well as delegated navigation.
 - Matched the swan's size and placement to the latest reference image while leaving the other collage assets and their positions unchanged; its transparent area remains click-through.
-# mm-invitation
+
+## Entrance and paper-texture update
+- The first-load envelope, bouquet, and polaroid rise gently from below and fade into place.
+- Opening the envelope starts the collage reveal immediately underneath it; there is no deliberate blank-screen pause.
+- The inner liner image no longer slides out of the envelope. The transition focuses on the scrapbook elements emerging into their final positions.
+- Collage elements, Details, and Love Story pages use the same bottom-to-top fade entrance.
+- Sage-green envelopes and panels have subtle paper-grain texture and soft edge shading.
+- Motion respects `prefers-reduced-motion` accessibility settings.

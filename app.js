@@ -44,19 +44,36 @@ function fillSite(data) {
 function openEnvelope() {
   const cover = $('#envelopeCover');
   const opened = $('#openedPage');
-  if (cover.classList.contains('is-opening')) return;
+  if (cover.classList.contains('is-opening') || cover.hidden) return;
+
+  // Reveal the collage immediately underneath the cover; both layers animate together.
+  opened.hidden = false;
+  opened.classList.remove('page-in');
+  void opened.offsetWidth;
+  opened.classList.add('page-in');
   cover.classList.add('is-opening');
   $('#coverEnvelope').classList.add('is-open');
-  window.setTimeout(() => {
+  $('#coverEnvelope').setAttribute('aria-expanded', 'true');
+
+  const openedUrl = new URL(window.location.href);
+  openedUrl.hash = 'opened';
+  window.history.replaceState({}, '', openedUrl);
+
+  let finished = false;
+  const finishOpening = () => {
+    if (finished) return;
+    finished = true;
     cover.hidden = true;
     cover.classList.remove('is-opening');
     $('#coverEnvelope').classList.remove('is-open');
-    opened.hidden = false;
-    const openedUrl = new URL(window.location.href);
-    openedUrl.hash = 'opened';
-    window.history.replaceState({}, '', openedUrl);
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, 2350);
+  };
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    requestAnimationFrame(finishOpening);
+  } else {
+    // This aligns with the cover's short fade; the collage keeps revealing afterward.
+    window.setTimeout(finishOpening, 1050);
+  }
 }
 
 function backToEnvelope() {
@@ -196,13 +213,15 @@ document.addEventListener('submit', (event) => {
   }
   fillSite(weddingData);
   const params = new URLSearchParams(window.location.search);
-  if (window.location.hash === '#opened') {
+  if (window.location.hash === '#opened' || params.get('view') === 'rsvp') {
     $('#envelopeCover').hidden = true;
-    $('#openedPage').hidden = false;
+    const opened = $('#openedPage');
+    opened.hidden = false;
+    requestAnimationFrame(() => {
+      opened.classList.remove('page-in');
+      void opened.offsetWidth;
+      opened.classList.add('page-in');
+    });
   }
-  if (params.get('view') === 'rsvp') {
-    $('#envelopeCover').hidden = true;
-    $('#openedPage').hidden = false;
-    showDialog('rsvp');
-  }
+  if (params.get('view') === 'rsvp') showDialog('rsvp');
 })();

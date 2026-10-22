@@ -194,3 +194,210 @@
   letter-spacing: .02em;
   white-space: nowrap;
 }
+
+/* Refined opening sequence: tactile paper, a revealed inner liner, and a soft crossfade. */
+.cover-envelope{transform-style:preserve-3d;transition:transform 1.25s cubic-bezier(.2,.72,.2,1),filter 1.25s ease;}
+.cover-back,.cover-front-left,.cover-front-right,.cover-front-bottom,.cover-flap{backface-visibility:visible;}
+.cover-letter{overflow:hidden;isolation:isolate;transform:translateY(0);transition:transform 1.45s .24s cubic-bezier(.18,.78,.22,1),box-shadow 1s ease;}
+.cover-letter-image{position:absolute;inset:0;display:block;overflow:hidden;opacity:0;transform:scale(1.045);transition:opacity 1s .34s ease,transform 1.8s .25s cubic-bezier(.2,.7,.2,1);z-index:0;pointer-events:none;}
+.cover-letter-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.78) contrast(.96);}
+.cover-letter-glow{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:linear-gradient(180deg,#f7f3e8a8 0%,#f8f5ed42 40%,#5b624d20 100%);transition:opacity 1s .45s ease;}
+.cover-letter small,.cover-letter strong,.cover-date{position:relative;z-index:2;}
+.envelope-cover.is-opening{position:fixed;inset:0;z-index:120;min-height:100vh;min-height:100svh;opacity:0;transform:scale(1.018);pointer-events:none;transition:opacity .95s 1.45s ease,transform 1.15s 1.4s cubic-bezier(.2,.7,.2,1);}
+.envelope-cover.is-opening .cover-envelope{transform:translateX(-50%) scale(1.045);filter:drop-shadow(0 18px 26px #30362925);}
+.envelope-cover.is-opening .cover-flap{transform:rotateX(180deg);}
+.envelope-cover.is-opening .cover-letter{transform:translateY(-24%);box-shadow:0 15px 35px #3c44301b;}
+.envelope-cover.is-opening .cover-letter-image{opacity:1;transform:scale(1);}
+.envelope-cover.is-opening .cover-letter-glow{opacity:1;}
+.envelope-cover.is-opening .cover-seal{opacity:0;transform:translate(-50%,-42%) scale(.8);transition:opacity .35s ease,transform .55s ease;}
+.envelope-cover.is-opening .cover-bouquet{transform:rotate(56deg) translate(-9px,8px) scale(.97);transition:transform 1.2s ease;}
+.envelope-cover.is-opening .cover-polaroid{transform:rotate(7deg) translate(8px,-8px) scale(1.035);transition:transform 1.2s cubic-bezier(.2,.7,.2,1);}
+.opened-page.page-in{animation:pageIn 1.25s .2s both;}
+.opened-page.page-in .scrapbook > *{animation:collageSoftReveal .95s both;}
+.opened-page.page-in .scrapbook > *:nth-child(1){animation-delay:.18s}
+.opened-page.page-in .scrapbook > *:nth-child(2){animation-delay:.24s}
+.opened-page.page-in .scrapbook > *:nth-child(3){animation-delay:.3s}
+.opened-page.page-in .scrapbook > *:nth-child(4){animation-delay:.36s}
+.opened-page.page-in .scrapbook > *:nth-child(5){animation-delay:.42s}
+.opened-page.page-in .scrapbook > *:nth-child(6){animation-delay:.48s}
+.opened-page.page-in .scrapbook > *:nth-child(7){animation-delay:.54s}
+.opened-page.page-in .scrapbook > *:nth-child(8){animation-delay:.6s}
+.opened-page.page-in .scrapbook > *:nth-child(9){animation-delay:.66s}
+.opened-page.page-in .scrapbook > *:nth-child(10){animation-delay:.72s}
+.opened-page.page-in .scrapbook > *:nth-child(11){animation-delay:.78s}
+.opened-page.page-in .scrapbook > *:nth-child(12){animation-delay:.84s}
+.opened-page.page-in .scrapbook > *:nth-child(13){animation-delay:.9s}
+.opened-page.page-in .scrapbook > *:nth-child(14){animation-delay:.96s}
+@keyframes collageSoftReveal{from{opacity:.15;filter:blur(4px)}to{opacity:1;filter:blur(0)}}
+.hotspot{transition:filter .3s ease;}
+.hotspot:hover{filter:brightness(1.035) drop-shadow(0 4px 5px #3e44331a);}
+.cover-open-text{transition:color .25s ease,letter-spacing .35s ease;}
+.cover-open-text:hover{letter-spacing:.065em;}
+.cover-polaroid{transition:transform .55s cubic-bezier(.2,.7,.2,1),box-shadow .4s ease;}
+.cover-polaroid:hover{box-shadow:0 10px 24px #26251e22;}
+@media(prefers-reduced-motion:reduce){
+ .envelope-cover.is-opening,.cover-envelope,.cover-flap,.cover-letter,.cover-letter-image,.cover-letter-glow,.cover-seal,.cover-bouquet,.cover-polaroid,.opened-page.page-in,.opened-page.page-in .scrapbook>*{animation:none!important;transition-duration:.01ms!important;transition-delay:0ms!important;}
+ .envelope-cover.is-opening{opacity:0;}
+}
+
+/* Entrance motion: every cover and collage layer rises gently into its final position. */
+@keyframes softRiseEntrance {
+  from { opacity: 0; translate: 0 30px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+@keyframes collageSoftReveal {
+  from { opacity: 0; translate: 0 25px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+@keyframes pageIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.envelope-cover:not(.is-opening) .cover-stage > * {
+  animation: softRiseEntrance .88s cubic-bezier(.18,.72,.22,1) both;
+}
+.envelope-cover:not(.is-opening) .cover-stage > :nth-child(1) { animation-delay: .03s; }
+.envelope-cover:not(.is-opening) .cover-stage > :nth-child(2) { animation-delay: .12s; }
+.envelope-cover:not(.is-opening) .cover-stage > :nth-child(3) { animation-delay: .22s; }
+.envelope-cover:not(.is-opening) .cover-stage > :nth-child(4) { animation-delay: .29s; }
+.envelope-cover:not(.is-opening) .cover-stage > :nth-child(5) { animation-delay: .37s; }
+
+/* The cover folds away while the scrapbook is already emerging beneath it. */
+.envelope-cover.is-opening {
+  opacity: 0;
+  transform: none;
+  pointer-events: none;
+  transition: opacity .78s .14s ease, visibility 0s linear .98s;
+}
+.envelope-cover.is-opening .cover-envelope {
+  transform: translateX(-50%) scale(1.015);
+  filter: drop-shadow(0 8px 13px #3036291a);
+  transition: transform .82s cubic-bezier(.2,.72,.2,1), filter .82s ease;
+}
+.envelope-cover.is-opening .cover-flap {
+  transform: rotateX(165deg);
+  transition: transform .78s cubic-bezier(.2,.72,.2,1);
+}
+.envelope-cover.is-opening .cover-letter {
+  transform: none;
+  box-shadow: none;
+  transition: none;
+}
+.envelope-cover.is-opening .cover-letter-image,
+.envelope-cover.is-opening .cover-letter-glow {
+  display: none !important;
+  opacity: 0 !important;
+  transform: none !important;
+}
+.envelope-cover.is-opening .cover-seal {
+  opacity: 0;
+  transform: translate(-50%,-50%) scale(.82);
+  transition: opacity .3s ease, transform .45s ease;
+}
+.envelope-cover.is-opening .cover-bouquet,
+.envelope-cover.is-opening .cover-polaroid {
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+.envelope-cover.is-opening .cover-open-text,
+.envelope-cover.is-opening .cover-date-top {
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.cover-letter-paper {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,#fffefa,#f5f2e9);
+  pointer-events: none;
+}
+.cover-letter-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .13;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+  background-size: 150px 150px;
+}
+
+/* Start the collage reveal immediately; each item drifts up and fades to full opacity. */
+.opened-page.page-in { animation: pageIn .22s ease both; }
+.opened-page.page-in .scrapbook > * {
+  animation: collageSoftReveal .76s cubic-bezier(.18,.72,.22,1) both;
+}
+.opened-page.page-in .scrapbook > :nth-child(1)  { animation-delay: .00s; }
+.opened-page.page-in .scrapbook > :nth-child(2)  { animation-delay: .04s; }
+.opened-page.page-in .scrapbook > :nth-child(3)  { animation-delay: .08s; }
+.opened-page.page-in .scrapbook > :nth-child(4)  { animation-delay: .12s; }
+.opened-page.page-in .scrapbook > :nth-child(5)  { animation-delay: .16s; }
+.opened-page.page-in .scrapbook > :nth-child(6)  { animation-delay: .20s; }
+.opened-page.page-in .scrapbook > :nth-child(7)  { animation-delay: .24s; }
+.opened-page.page-in .scrapbook > :nth-child(8)  { animation-delay: .28s; }
+.opened-page.page-in .scrapbook > :nth-child(9)  { animation-delay: .32s; }
+.opened-page.page-in .scrapbook > :nth-child(10) { animation-delay: .36s; }
+.opened-page.page-in .scrapbook > :nth-child(11) { animation-delay: .40s; }
+.opened-page.page-in .scrapbook > :nth-child(12) { animation-delay: .44s; }
+.opened-page.page-in .scrapbook > :nth-child(13) { animation-delay: .48s; }
+.opened-page.page-in .scrapbook > :nth-child(14) { animation-delay: .52s; }
+.opened-page.page-in .scrapbook > :nth-child(15) { animation-delay: .56s; }
+.opened-page.page-in .scrapbook > :nth-child(16) { animation-delay: .60s; }
+.opened-page.page-in .collage-footer { animation: collageSoftReveal .8s .68s cubic-bezier(.18,.72,.22,1) both; }
+
+/* Fine mottled fibres and soft edge shading make the sage shapes read as paper. */
+.paper-noise { opacity: .085; }
+.cover-back:after,
+.cover-flap:after,
+.cover-front-left:after,
+.cover-front-right:after,
+.cover-front-bottom:after {
+  background-size: 128px 128px;
+  opacity: .68;
+  mix-blend-mode: soft-light;
+}
+.collage-envelope::after,
+.green-backing::after,
+.open-letter-panel::after,
+.open-letter-flap::after,
+.closed-env-flap::after,
+.closed-env-fold-left::after,
+.closed-env-fold-right::after,
+.closed-env-fold-bottom::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fibres'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' seed='8' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fibres)' opacity='.62'/%3E%3C/svg%3E");
+  background-size: 145px 145px;
+  mix-blend-mode: soft-light;
+  opacity: .27;
+}
+.collage-envelope::after { z-index: 2; }
+.green-backing::after { z-index: 5; }
+.open-letter-panel::after { z-index: 4; }
+.open-letter-flap::after,
+.closed-env-flap::after,
+.closed-env-fold-left::after,
+.closed-env-fold-right::after,
+.closed-env-fold-bottom::after { z-index: 1; }
+.green-backing { background-image: linear-gradient(135deg,#858e6d,#6f7a57 70%,#798461); }
+.collage-envelope { background-image: linear-gradient(135deg,#a1a78f 0%,#8a9279 52%,#7e876e 100%); }
+.open-letter-panel { background-image: linear-gradient(145deg,#778565,#647554); }
+
+@media (prefers-reduced-motion: reduce) {
+  .envelope-cover:not(.is-opening) .cover-stage > *,
+  .opened-page.page-in,
+  .opened-page.page-in .scrapbook > *,
+  .opened-page.page-in .collage-footer {
+    animation: none !important;
+  }
+  .envelope-cover.is-opening,
+  .envelope-cover.is-opening .cover-envelope,
+  .envelope-cover.is-opening .cover-flap,
+  .envelope-cover.is-opening .cover-seal,
+  .envelope-cover.is-opening .cover-bouquet,
+  .envelope-cover.is-opening .cover-polaroid,
+  .envelope-cover.is-opening .cover-open-text,
+  .envelope-cover.is-opening .cover-date-top {
+    transition-duration: .01ms !important;
+    transition-delay: 0ms !important;
+  }
+}
