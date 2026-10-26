@@ -1,65 +1,220 @@
 {
   "couple": {
-    "partnerOne": "Masoom",
-    "partnerTwo": "Meeza",
+    "partnerOne": "Mohammad Masoom",
+    "partnerTwo": "Miza Zafirah",
+    "displayNames": "Masoom & Miza",
     "initials": "M · M",
-    "intro": "Together with our families, we invite you to join us for the wedding celebration of Masoom and Meeza.",
-    "story": "A story of friendship, laughter, and finding home in one another. We are so grateful to celebrate the start of our next chapter with the people we love most.",
-    "contactEmail": "hello@example.com"
+    "intro": "Assalamu’alaikum Warahmatullahi Wabarakatuh\n\nAlhamdulillahi Rabbil ‘Alamin.\n\nWith the grace and blessings of Allah SWT and the love and du'a of our beloved families, we are delighted to invite you to celebrate the blessed union of Masoom & Miza.\n\nAs we embark on this sacred journey of marriage, united in love, faith, and devotion, we pray that Allah SWT blesses our union with Sakinah, Mawaddah and Rahmah.\n\nYour presence, heartfelt du'a and blessings would bring immense joy to our special day.\n\nBarakallahu Feekum.\n\nMay Allah SWT bless us all with His endless mercy and barakah.",
+    "contacts": [
+      {
+        "name": "Miza",
+        "phone": "019-6109987",
+        "whatsappUrl": "https://wa.me/60196109987"
+      },
+      {
+        "name": "Masoom",
+        "phone": "017-6007460",
+        "whatsappUrl": "https://wa.me/60176007460"
+      }
+    ],
+    "parentsNames": "[To confirm]"
   },
   "wedding": {
-    "date": "2027-04-12T13:00:00+02:00",
-    "displayDate": "12 April 2027",
+    "date": "2026-12-12T08:00:00+08:00",
+    "displayDate": "12 December 2026",
+    "day": "Saturday",
     "ordinalDate": "12th",
-    "month": "April",
-    "year": "2027",
-    "time": "At 1:00 PM",
-    "rsvpDeadline": "31 March 2027",
-    "city": "Lake Como, Italy",
+    "month": "December",
+    "year": "2026",
+    "time": "8:00 AM",
+    "timeZone": "Asia/Kuala_Lumpur",
+    "rsvpDeadline": "[To confirm]",
+    "city": "Putrajaya, Malaysia",
     "ceremony": {
-      "title": "Wedding Ceremony",
-      "time": "1:00 PM",
-      "venue": "Villa del Balbiano",
-      "address": "Ossuccio, Lake Como, Italy"
+      "title": "Akad Nikah",
+      "date": "12 December 2026",
+      "time": "8:00 AM",
+      "guestArrivalTime": "7:30 AM",
+      "guestArrivalTimeTentative": true,
+      "venue": "Masjid Putra",
+      "address": "Presint 1, 62000 Putrajaya, Malaysia",
+      "dressCode": "Traditional (Off White)",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Masjid+Putra+Putrajaya",
+      "instructions": "[To confirm]"
     },
     "reception": {
-      "title": "Dinner & Celebration",
-      "time": "5:00 PM",
-      "venue": "Lake Como",
-      "address": "Lake Como, Italy"
+      "title": "Wedding Reception / Walimatulurus",
+      "date": "12 December 2026",
+      "dateConfirmed": true,
+      "time": "7:00 PM - 11:00 PM",
+      "startTime": "19:00",
+      "endTime": "23:00",
+      "timeTentative": true,
+      "venue": "The Glass Suite by Bora Ombak",
+      "address": "1, Jalan P5/5, Presint 5, 62200 Putrajaya, Wilayah Persekutuan Putrajaya",
+      "dressCode": "Traditional or Formal",
+      "guestColorTheme": "Champagne",
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Glass+Suite+by+Bora+Ombak+Putrajaya",
+      "parkingInstructions": "[To confirm]",
+      "instructions": "[To confirm]"
     },
-    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lake+Como+Italy"
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Masjid+Putra+Putrajaya"
+  },
+  "rsvp": {
+    "enabled": true,
+    "deadline": "[To confirm]",
+    "formUrl": "[RSVP form URL to be added]",
+    "separateEventRSVP": true,
+    "events": [
+      {
+        "id": "akad-nikah",
+        "title": "Akad Nikah",
+        "date": "2026-12-12",
+        "time": "08:00"
+      },
+      {
+        "id": "wedding-reception",
+        "title": "Wedding Reception / Walimatulurus",
+        "date": "2026-12-12",
+        "time": "19:00",
+        "timeTentative": true
+      }
+    ],
+    "guestFullNameRequired": true,
+    "attendanceOptions": [
+      "Attending",
+      "Unable to attend"
+    ],
+    "allocatedGuestCount": 2,
+    "childrenAllowed": true,
+    "childrenIncludedInGuestCount": "[To confirm]",
+    "extraGuestsRequireApproval": true,
+    "mealPreferences": "[To confirm]",
+    "contactNumberRequired": false,
+    "guestMessageEnabled": true,
+    "guestMessagePlaceholder": "Leave your wishes and du'a for the couple",
+    "confirmationMessage": "We’d love to celebrate with everyone, but as seating is limited, we kindly ask you to follow your allocated guest count. If you’d like to bring someone extra, please let us know early, and we’ll do our best to accommodate. Thank you for your love and understanding!",
+    "appsScriptUrl": "https://script.google.com/macros/s/AKfycbzeuwnu8kxjlzHbwIYZmQOvfh8F24wuelnG-vNOYvQ8U9taMMywhq3AMaH7COxn-ZrdtA/exec",
+    "whatsappConfirmationEnabled": true
   },
   "design": {
     "envelopeKicker": "A LITTLE NOTE FOR YOU",
-    "openPrompt": "CLICK ENVELOPE TO OPEN",
-    "colorSage": "#828b6a",
-    "colorRose": "#d8959d",
-    "colorPaper": "#f7f4eb"
+    "openPrompt": "CLICK TO OPEN",
+    "language": "Bilingual",
+    "languageOptions": [
+      "English",
+      "Bahasa Melayu"
+    ],
+    "style": [
+      "Elegant",
+      "Romantic",
+      "Minimalist"
+    ],
+    "colorSage": "#A5AD96",
+    "colorRose": "#DFA6B0",
+    "colorPaper": "#FFF9F5",
+    "colorWhite": "#FFFFFF",
+    "colorIvory": "#FFFFF0",
+    "colorChampagne": "#F7E7CE",
+    "floralDecoration": "Soft pink and white flowers",
+    "backgrounds": {
+      "envelope": {
+        "image": "assets/water-lilies-envelope.jpeg",
+        "blurPx": 3,
+        "opacity": 0.34,
+        "washOpacity": 0.56
+      },
+      "opened": {
+        "image": "assets/water-lilies-opened.jpeg",
+        "blurPx": 4,
+        "opacity": 0.36,
+        "washOpacity": 0.58
+      }
+    },
+    "backgroundMusic": {
+      "enabled": true,
+      "track": "[To confirm]",
+      "audioUrl": "[To confirm]",
+      "autoplay": false,
+      "showMusicToggle": true
+    },
+    "countdown": {
+      "enabled": true,
+      "targetDate": "2026-12-12T08:00:00+08:00",
+      "title": "Counting Down to Our Forever"
+    }
   },
   "images": {
     "flowerSpray": "assets/floral-spray.webp",
     "anthuriums": "assets/anthurium-pair.webp",
-    "hand": "https://picsum.photos/seed/wedding-hands/800/1100",
-    "location": "https://picsum.photos/seed/lake-location/900/1100",
-    "couple": "https://picsum.photos/seed/wedding-couple/900/1100",
-    "envelopeLiner": "https://picsum.photos/seed/garden-liner/1000/700"
+    "hand": "[Main couple photo to be added]",
+    "location": "[Venue photo to be added]",
+    "couple": "[Main couple photo to be added]",
+    "engagement": "[Engagement photo to be added]",
+    "envelopeLiner": "[Envelope background image to be added]",
+    "envelopeBackground": "assets/water-lilies-envelope.jpeg",
+    "openedBackground": "assets/water-lilies-opened.jpeg"
   },
   "gallery": [
     {
-      "src": "https://picsum.photos/seed/wedding-gallery-1/900/1100",
-      "alt": "Wedding gallery photograph 1",
-      "caption": "The little details"
+      "src": "[Gallery photo 1 to be added]",
+      "alt": "Masoom and Miza - Wedding Gallery 1",
+      "caption": "[To confirm]"
     },
     {
-      "src": "https://picsum.photos/seed/wedding-gallery-2/900/1100",
-      "alt": "Wedding gallery photograph 2",
-      "caption": "A place to remember"
+      "src": "[Gallery photo 2 to be added]",
+      "alt": "Masoom and Miza - Wedding Gallery 2",
+      "caption": "[To confirm]"
     },
     {
-      "src": "https://picsum.photos/seed/wedding-gallery-3/900/1100",
-      "alt": "Wedding gallery photograph 3",
-      "caption": "Our story"
+      "src": "[Gallery photo 3 to be added]",
+      "alt": "Masoom and Miza - Wedding Gallery 3",
+      "caption": "[To confirm]"
     }
-  ]
+  ],
+  "features": {
+    "whatsappContact": {
+      "enabled": true,
+      "contacts": [
+        {
+          "name": "Miza",
+          "url": "https://wa.me/60196109987"
+        },
+        {
+          "name": "Masoom",
+          "url": "https://wa.me/60176007460"
+        }
+      ]
+    },
+    "addToCalendar": {
+      "enabled": true,
+      "events": [
+        {
+          "title": "Masoom & Miza - Akad Nikah",
+          "start": "2026-12-12T08:00:00+08:00",
+          "end": "[To confirm]",
+          "location": "Masjid Putra, Putrajaya"
+        },
+        {
+          "title": "Masoom & Miza - Wedding Reception",
+          "start": "2026-12-12T19:00:00+08:00",
+          "end": "2026-12-12T23:00:00+08:00",
+          "timeTentative": true,
+          "location": "The Glass Suite by Bora Ombak, Putrajaya"
+        }
+      ]
+    },
+    "googleMapsDirections": {
+      "enabled": true,
+      "showSeparateVenueButtons": true
+    },
+    "countdownDisplay": true,
+    "giftAndWishes": {
+      "enabled": true,
+      "guestWishesEnabled": true,
+      "giftDetails": "[To confirm]"
+    },
+    "separateEventRSVP": true,
+    "closingMessage": "Your presence and prayers mean the world to us."
+  }
 }

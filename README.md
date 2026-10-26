@@ -1,4 +1,4 @@
-# 
+# Masoom & Meeza — Responsive Wedding Invitation
 
 A responsive HTML/CSS/JavaScript recreation of the collage-style wedding invitation shown in the reference screenshots. The desktop collage scales up with the viewport instead of remaining capped at a mobile-sized width. Its type sizes are tied to the collage canvas using CSS container units, so the envelope, postcard, date card, floral elements, swan Details button, RSVP badge, and oval story photo scale together.
 
@@ -28,7 +28,7 @@ Edit `data.json` to change names, dates, venues, the map URL, contact email, the
 The RSVP demo saves submissions in the visitor's browser `localStorage`; it does not transmit or centrally collect guest responses. Connect a form provider or backend before using it for a real wedding.
 
 ## Assets
-The `assets` folder includes floral artwork generated for this project, local wedding-detail and lake photos, and a couple portrait placeholder. Fonts are loaded from Google Fonts, so internet access is needed for those fonts. Gallery photos can be replaced through `data.json`.
+The `assets` folder includes the floral artwork, local wedding-detail photos, and two supplied water-lily paintings used as softly blurred backgrounds. The envelope and opened-collage background image paths, blur, opacity, and white wash are configurable in `data.json` under `images` and `design.backgrounds`. The wedding details, contact links, event-specific maps, colors, RSVP fields, and gallery content are also configured in `data.json`. Placeholder image strings such as `[Main couple photo to be added]` intentionally fall back to local demo images until you replace them. Fonts are loaded from Google Fonts, so internet access is needed for those fonts.
 
 ## Free hosting
 Deploy the folder to GitHub Pages, Netlify, or Cloudflare Pages. Keep `index.html`, `styles.css`, `app.js`, `data.json`, `subpages.css`, `subpages.js`, `details/`, `love-story/`, and `assets/` together in the published root.
@@ -50,3 +50,13 @@ Deploy the folder to GitHub Pages, Netlify, or Cloudflare Pages. Keep `index.htm
 - Collage elements, Details, and Love Story pages use the same bottom-to-top fade entrance.
 - Sage-green envelopes and panels have subtle paper-grain texture and soft edge shading.
 - Motion respects `prefers-reduced-motion` accessibility settings.
+
+
+## Wedding data and backgrounds
+- The envelope uses `images.envelopeBackground`; the opened collage uses `images.openedBackground`.
+- `design.backgrounds.envelope` and `design.backgrounds.opened` control `blurPx`, `opacity`, and `washOpacity`.
+- RSVP form submissions remain a browser-only demo until a real `rsvp.formUrl` or backend integration is added.
+
+
+## Real RSVP collection (Google Sheets + WhatsApp)
+The RSVP modal now posts form-encoded submissions to a free Google Apps Script web app and offers optional pre-filled WhatsApp messages to Miza or Masoom. Follow `RSVP-GOOGLE-SHEETS-SETUP.md` and set `rsvp.appsScriptUrl` in `data.json` to the deployed `/exec` URL before publishing. Until that URL is configured, the form will explain that setup is required rather than pretending a response was collected.

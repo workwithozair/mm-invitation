@@ -401,3 +401,137 @@
     transition-delay: 0ms !important;
   }
 }
+
+/* Data-driven Monet-style water-lily backdrops for the envelope and opened collage. */
+:root {
+  --cover-bg-image: url("assets/water-lilies-envelope.jpeg");
+  --opened-bg-image: url("assets/water-lilies-opened.jpeg");
+  --liner-image: url("assets/envelope-liner.jpg");
+  --cover-bg-blur: 6px;
+  --cover-bg-opacity: .34;
+  --cover-bg-wash: .56;
+  --opened-bg-blur: 8px;
+  --opened-bg-opacity: .36;
+  --opened-bg-wash: .58;
+}
+.envelope-cover {
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+.envelope-cover::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  z-index: -2;
+  pointer-events: none;
+  background-image: var(--cover-bg-image);
+  background-size: cover;
+  background-position: center 48%;
+  background-repeat: no-repeat;
+  filter: blur(var(--cover-bg-blur));
+  opacity: var(--cover-bg-opacity);
+  transform: scale(1.035);
+}
+.envelope-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(255,255,255,var(--cover-bg-wash));
+}
+.cover-stage { position: relative; z-index: 1; }
+.opened-page {
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+.opened-page::before {
+  content: "";
+  position: fixed;
+  inset: -20px;
+  z-index: -2;
+  pointer-events: none;
+  background-image: var(--opened-bg-image);
+  background-size: cover;
+  background-position: center 45%;
+  background-repeat: no-repeat;
+  filter: blur(var(--opened-bg-blur));
+  opacity: var(--opened-bg-opacity);
+  transform: scale(1.04);
+}
+.opened-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(255,255,255,var(--opened-bg-wash));
+}
+.scrapbook { background: rgba(255,255,255,.25) !important; }
+.collage-footer { background: rgba(255,255,255,.78); }
+.backing-landscape {
+  background-image: linear-gradient(#66734f33,#69785333), var(--liner-image, url("assets/envelope-liner.jpg"));
+}
+.open-letter-inner {
+  background-image: linear-gradient(160deg,#647553b5,#6f7c5cb5), var(--liner-image, url("assets/envelope-liner.jpg"));
+}
+.dialog-copy { white-space: pre-line; }
+.contact-links { display:flex; flex-wrap:wrap; gap:4px 16px; justify-content:center; align-items:center; }
+.contact-link { display:inline-block; padding:3px 0; }
+.rsvp-event-field { display:grid; gap:8px; border:1px solid #d8ddce !important; background:#f3f4ee; padding:12px !important; }
+.rsvp-form .rsvp-event-field legend { display:block; margin:0 0 2px; line-height:1.55; }
+.rsvp-form .rsvp-select-label { display:grid; grid-template-columns:1fr; gap:5px; font:11px var(--sans); color:#55594d; letter-spacing:0; }
+.rsvp-config-note { font:11px/1.55 var(--sans); color:#77786d; margin:0; }
+.event-panel-meta { font:11px/1.5 var(--sans) !important; color:#77786d; margin:6px 0 12px !important; }
+.event-panel-meta[hidden] { display:none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .envelope-cover::before, .opened-page::before { filter:none; }
+}
+
+/* RSVP layering fix: keep decorative flowers behind the badge and never let
+   their transparent image boxes intercept the RSVP control. */
+.flower-lower-left,
+.flower-lower-right { z-index: 24 !important; }
+.rsvp-badge {
+  z-index: 42 !important;
+  isolation: isolate;
+  overflow: visible;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.rsvp-badge > svg,
+.rsvp-badge > .rsvp-copy { z-index: 1; pointer-events: none; }
+.rsvp-badge::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -27%;
+  top: -30%;
+  width: 84%;
+  height: 145%;
+  background: url('assets/floral-spray.webp') center / contain no-repeat;
+  transform: rotate(-12deg);
+  filter: drop-shadow(0 2px 2px #65614a18);
+  pointer-events: none;
+}
+.rsvp-badge::after { z-index: 1; }
+.rsvp-copy { z-index: 2; pointer-events: none; }
+
+/* Let only the painted swan artwork and its label receive clicks. The anchor's
+   empty rectangle stays transparent to nearby controls. */
+.swan-details { pointer-events: none !important; z-index: 22 !important; }
+.swan-details .swan-svg { pointer-events: visiblePainted !important; }
+.swan-details .swan-svg path { pointer-events: visiblePainted !important; cursor: pointer; }
+.swan-details .swan-copy,
+.swan-details .swan-copy * { pointer-events: auto !important; cursor: pointer; }
+
+/* Final swan placement and reliable Details navigation. */
+.swan-details { top: 55.8% !important; }
+.swan-details .swan-svg path { pointer-events: visiblePainted !important; cursor: pointer; }
+.swan-details .swan-copy, .swan-details .swan-copy * { pointer-events: auto !important; cursor: pointer; }
+
+/* RSVP submission and optional WhatsApp confirmation */
+.rsvp-submit:disabled{opacity:.55;cursor:wait}.rsvp-whatsapp-actions{display:grid;gap:8px;margin-top:8px}.rsvp-whatsapp-actions .rsvp-config-note{font:12px/1.5 var(--sans);color:var(--sage-deep);text-align:center}.rsvp-whatsapp-link{display:block;margin-top:0;text-align:center;font-size:8px}.rsvp-confirmation{padding:10px;background:#eef0e8;color:var(--sage-deep);font:12px/1.5 var(--sans);text-align:center}

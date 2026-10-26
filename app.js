@@ -17,30 +17,87 @@ function safeText(value) {
   return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
 }
 
-function fillSite(data) {
-  const { couple, wedding, design, images } = data;
-  document.title = `${couple.partnerOne} & ${couple.partnerTwo} — Wedding Invitation`;
-  $('#coverKicker').textContent = design.envelopeKicker;
-  $('#coverNames').innerHTML = `${safeText(couple.partnerOne)} <i>&amp;</i> ${safeText(couple.partnerTwo)}`;
-  $('#coverDate').textContent = wedding.displayDate.replaceAll(' ', ' · ');
-  $('#coverInitials').textContent = couple.initials;
-  $('#coverPrompt').textContent = design.openPrompt;
-  $('#dateOrdinal').innerHTML = `${safeText(wedding.ordinalDate)}<sup>TH</sup>`;
-  $('#dateMonth').textContent = wedding.month;
-  $('#dateYear').textContent = wedding.year;
-  $('#dateTime').textContent = wedding.time.toUpperCase();
-  $('#datePlace').innerHTML = safeText(wedding.city).toUpperCase().replace(', ', ',<br>');
-  $('#medallionNames').innerHTML = `${safeText(couple.partnerOne)}<br>&amp; ${safeText(couple.partnerTwo)}`;
-  $('#handPhoto').src = images.hand;
-  $('#locationPhoto').src = images.location;
-  $('#couplePhoto').src = images.couple;
-  $('#contactEmail').href = `mailto:${couple.contactEmail}`;
-  $('#contactEmail').textContent = couple.contactEmail;
-  $('#footerNames').textContent = `${couple.partnerOne} & ${couple.partnerTwo}`;
-  document.documentElement.style.setProperty('--sage', design.colorSage || '#828b6a');
-  document.documentElement.style.setProperty('--rose', design.colorRose || '#d8959d');
+function isPlaceholder(value) {
+  return typeof value !== 'string' || !value.trim() || /^\s*\[.*\]\s*$/.test(value.trim());
 }
 
+function imageOrFallback(value, fallback) {
+  return isPlaceholder(value) ? fallback : value.trim();
+}
+
+function setImageCssVariable(name, value) {
+  const clean = imageOrFallback(value, '');
+  document.documentElement.style.setProperty(name, clean ? `url("${clean.replace(/["\\\n\r]/g, '')}")` : 'none');
+}
+
+function fillSite(data) {
+  const { couple, wedding, design, images } = data;
+  const displayNames = couple.displayNames || `${couple.partnerOne} & ${couple.partnerTwo}`;
+  document.title = `${displayNames} — Wedding Invitation`;
+  $('#coverKicker').textContent = design.envelopeKicker || 'A LITTLE NOTE FOR YOU';
+  $('#coverNames').innerHTML = safeText(displayNames).replace(/ &amp; /, ' <i>&amp;</i> ');
+  $('#coverDate').textContent = String(wedding.displayDate || '').replaceAll(' ', ' · ');
+  $('#coverInitials').textContent = couple.initials || 'M · M';
+  $('#coverPrompt').textContent = design.openPrompt || 'CLICK TO OPEN';
+
+  const dateParts = String(wedding.date || '').split('T')[0].split('-');
+  if (dateParts.length === 3) $('#coverDateTop').textContent = `${dateParts[2]}.${dateParts[1]}.${dateParts[0].slice(-2)}`;
+  const ordinal = String(wedding.ordinalDate || `${dateParts[2] || '12'}th`).match(/^(\d+)(.*)$/);
+  $('#dateOrdinal').innerHTML = `${safeText(ordinal ? ordinal[1] : wedding.ordinalDate)}<sup>${safeText((ordinal && ordinal[2]) || 'TH').toUpperCase()}</sup>`;
+  $('#dateMonth').textContent = wedding.month || '';
+  $('#dateYear').textContent = wedding.year || '';
+  $('#dateTime').textContent = String(wedding.time || '').toUpperCase();
+  $('#datePlace').innerHTML = safeText(wedding.city || '').toUpperCase().replace(', ', ',<br>');
+  $('#medallionNames').innerHTML = safeText(displayNames).replace(/ &amp; /, '<br>&amp; ');
+  $('#handPhoto').src = imageOrFallback(images.hand, 'assets/hand-detail.jpg');
+  $('#locationPhoto').src = imageOrFallback(images.location, 'assets/water-lilies-envelope.jpeg');
+  $('#couplePhoto').src = imageOrFallback(images.couple, 'assets/wedding-couple.jpg');
+  $('#footerNames').textContent = displayNames;
+  document.querySelectorAll('[data-display-names]').forEach(el => { el.textContent = displayNames; });
+
+  const root = document.documentElement;
+  root.style.setProperty('--sage', design.colorSage || '#A5AD96');
+  root.style.setProperty('--sage-deep', '#69745A');
+  root.style.setProperty('--sage-shadow', '#45523B');
+  root.style.setProperty('--sage-light', '#E5E8DD');
+  root.style.setProperty('--rose', design.colorRose || '#DFA6B0');
+  root.style.setProperty('--rose-dark', '#bd7c85');
+  root.style.setProperty('--paper', design.colorPaper || '#FFF9F5');
+  root.style.setProperty('--ivory', design.colorIvory || '#FFFFF0');
+  root.style.setProperty('--champagne', design.colorChampagne || '#F7E7CE');
+
+  const backgrounds = design.backgrounds || {};
+  const coverBg = backgrounds.envelope || {};
+  const openedBg = backgrounds.opened || {};
+  setImageCssVariable('--cover-bg-image', images.envelopeBackground || coverBg.image);
+  setImageCssVariable('--opened-bg-image', images.openedBackground || openedBg.image);
+  setImageCssVariable('--liner-image', imageOrFallback(images.envelopeLiner, 'assets/envelope-liner.jpg'));
+  root.style.setProperty('--cover-bg-blur', `${Math.max(0, Number(coverBg.blurPx ?? 6))}px`);
+  root.style.setProperty('--cover-bg-opacity', String(Math.min(1, Math.max(0, Number(coverBg.opacity ?? .34)))));
+  root.style.setProperty('--cover-bg-wash', String(Math.min(1, Math.max(0, Number(coverBg.washOpacity ?? .56)))));
+  root.style.setProperty('--opened-bg-blur', `${Math.max(0, Number(openedBg.blurPx ?? 8))}px`);
+  root.style.setProperty('--opened-bg-opacity', String(Math.min(1, Math.max(0, Number(openedBg.opacity ?? .36)))));
+  root.style.setProperty('--opened-bg-wash', String(Math.min(1, Math.max(0, Number(openedBg.washOpacity ?? .58)))));
+
+  const contactLinks = $('#contactLinks');
+  if (contactLinks) {
+    const contactFeature = data.features?.whatsappContact;
+    const featureContacts = contactFeature?.contacts || [];
+    const contacts = contactFeature?.enabled && featureContacts.length ? featureContacts : (couple.contacts || []);
+    if (contacts.length) {
+      contactLinks.innerHTML = contacts.map(contact => {
+        const matching = (couple.contacts || []).find(item => item.name === contact.name);
+        const href = contact.whatsappUrl || contact.url || matching?.whatsappUrl || '';
+        if (!/^https:\/\/wa\.me\//i.test(href)) return '';
+        const phone = contact.phone || matching?.phone;
+        const label = phone ? `${contact.name} · ${phone}` : `${contact.name} on WhatsApp`;
+        return `<a class="contact-email contact-link" href="${safeText(href)}" target="_blank" rel="noreferrer">${safeText(label)}</a>`;
+      }).join('');
+    } else if (couple.contactEmail && !isPlaceholder(couple.contactEmail)) {
+      contactLinks.innerHTML = `<a class="contact-email" href="mailto:${safeText(couple.contactEmail)}">${safeText(couple.contactEmail)}</a>`;
+    }
+  }
+}
 function openEnvelope() {
   const cover = $('#envelopeCover');
   const opened = $('#openedPage');
@@ -90,22 +147,42 @@ function backToEnvelope() {
 
 function dialogTemplate(kind) {
   const { couple, wedding, gallery } = weddingData;
+  const displayNames = safeText(couple.displayNames || `${couple.partnerOne} & ${couple.partnerTwo}`);
   const name1 = safeText(couple.partnerOne), name2 = safeText(couple.partnerTwo);
   if (kind === 'invitation') {
-    return `<div class="dialog-body"><p class="dialog-eyebrow">TOGETHER WITH OUR FAMILIES</p><h2 class="dialog-title" id="dialogTitle">${name1} <em>&amp;</em> ${name2}</h2><p class="dialog-copy">${safeText(couple.intro)}</p><div class="dialog-divider"></div><p class="dialog-copy"><strong>${safeText(wedding.displayDate)}</strong><br>${safeText(wedding.time)}<br>${safeText(wedding.city)}</p><button class="dialog-link" type="button" data-modal="details">VIEW WEDDING DETAILS</button></div>`;
+    return `<div class="dialog-body"><p class="dialog-eyebrow">TOGETHER WITH OUR FAMILIES</p><h2 class="dialog-title" id="dialogTitle">${displayNames}</h2><p class="dialog-copy dialog-intro">${safeText(couple.intro)}</p><div class="dialog-divider"></div><p class="dialog-copy"><strong>${safeText(wedding.displayDate)}</strong><br>${safeText(wedding.time)}<br>${safeText(wedding.city)}</p><button class="dialog-link" type="button" data-modal="details">VIEW WEDDING DETAILS</button></div>`;
   }
   if (kind === 'details') {
-    return `<div class="dialog-body"><p class="dialog-eyebrow">THE DAY WE SAY I DO</p><h2 class="dialog-title" id="dialogTitle">Wedding <em>details</em></h2><p class="dialog-copy">${safeText(wedding.displayDate)} · ${safeText(wedding.city)}</p><div class="modal-countdown"><p>COUNTING DOWN TO THE CELEBRATION</p><div><strong id="modalDays">000</strong><span>DAYS</span></div><div><strong id="modalHours">00</strong><span>HOURS</span></div><div><strong id="modalMinutes">00</strong><span>MINUTES</span></div><div><strong id="modalSeconds">00</strong><span>SECONDS</span></div></div><div class="detail-grid"><section class="detail-box"><h3>${safeText(wedding.ceremony.title)}</h3><p>${safeText(wedding.ceremony.time)}</p><p><strong>${safeText(wedding.ceremony.venue)}</strong></p><p>${safeText(wedding.ceremony.address)}</p></section><section class="detail-box"><h3>${safeText(wedding.reception.title)}</h3><p>${safeText(wedding.reception.time)}</p><p><strong>${safeText(wedding.reception.venue)}</strong></p><p>${safeText(wedding.reception.address)}</p></section></div><a class="dialog-link" href="${safeText(wedding.mapsUrl)}" target="_blank" rel="noreferrer">OPEN LOCATION IN MAPS ↗</a></div>`;
+    return `<div class="dialog-body"><p class="dialog-eyebrow">THE DAY WE SAY I DO</p><h2 class="dialog-title" id="dialogTitle">Wedding <em>details</em></h2><p class="dialog-copy">${safeText(wedding.displayDate)} · ${safeText(wedding.city)}</p><div class="modal-countdown"><p>COUNTING DOWN TO THE CELEBRATION</p><div><strong id="modalDays">000</strong><span>DAYS</span></div><div><strong id="modalHours">00</strong><span>HOURS</span></div><div><strong id="modalMinutes">00</strong><span>MINUTES</span></div><div><strong id="modalSeconds">00</strong><span>SECONDS</span></div></div><div class="detail-grid"><section class="detail-box"><h3>${safeText(wedding.ceremony.title)}</h3><p>${safeText(wedding.ceremony.time)}</p><p><strong>${safeText(wedding.ceremony.venue)}</strong></p><p>${safeText(wedding.ceremony.address)}</p></section><section class="detail-box"><h3>${safeText(wedding.reception.title)}</h3><p>${safeText(wedding.reception.time)}</p><p><strong>${safeText(wedding.reception.venue)}</strong></p><p>${safeText(wedding.reception.address)}</p></section></div><div class="detail-grid"><a class="dialog-link" href="${safeText(wedding.ceremony.mapsUrl || wedding.mapsUrl)}" target="_blank" rel="noreferrer">AKAD NIKAH MAP ↗</a><a class="dialog-link" href="${safeText(wedding.reception.mapsUrl || wedding.mapsUrl)}" target="_blank" rel="noreferrer">RECEPTION MAP ↗</a></div></div>`;
   }
   if (kind === 'story') {
-    return `<div class="dialog-body"><p class="dialog-eyebrow">A LITTLE ABOUT US</p><h2 class="dialog-title" id="dialogTitle">Our <em>love story</em></h2><img class="story-dialog-photo" src="${safeText(weddingData.images.couple)}" alt="${name1} and ${name2}" style="width:min(100%,330px);height:250px;object-fit:cover;margin:0 auto 22px;display:block;filter:saturate(.8)"><p class="dialog-copy">${safeText(couple.story)}</p><p class="dialog-copy" style="font-family:var(--script);font-size:35px;color:var(--sage-deep);margin-bottom:0">${name1} &amp; ${name2}</p></div>`;
+    return `<div class="dialog-body"><p class="dialog-eyebrow">A LITTLE ABOUT US</p><h2 class="dialog-title" id="dialogTitle">Our <em>love story</em></h2><img class="story-dialog-photo" src="${safeText(imageOrFallback(weddingData.images.couple, 'assets/wedding-couple.jpg'))}" alt="${name1} and ${name2}" style="width:min(100%,330px);height:250px;object-fit:cover;margin:0 auto 22px;display:block;filter:saturate(.8)"><p class="dialog-copy">${safeText(couple.story || couple.intro)}</p><p class="dialog-copy" style="font-family:var(--script);font-size:35px;color:var(--sage-deep);margin-bottom:0">${name1} &amp; ${name2}</p></div>`;
   }
   if (kind === 'gallery') {
-    const cards = gallery.map(item => `<figure><img src="${safeText(item.src)}" alt="${safeText(item.alt)}"><figcaption>${safeText(item.caption || '')}</figcaption></figure>`).join('');
+    const galleryFallbacks = ['assets/hand-detail.jpg', 'assets/water-lilies-envelope.jpeg', 'assets/wedding-couple.jpg'];
+    const cards = gallery.map((item, index) => `<figure><img src="${safeText(imageOrFallback(item.src, galleryFallbacks[index % galleryFallbacks.length]))}" alt="${safeText(item.alt)}"><figcaption>${safeText(isPlaceholder(item.caption) ? '' : (item.caption || ''))}</figcaption></figure>`).join('');
     return `<div class="dialog-body"><p class="dialog-eyebrow">THE LITTLE MOMENTS</p><h2 class="dialog-title" id="dialogTitle">Our <em>gallery</em></h2><p class="dialog-copy">A few memories and places close to our hearts.</p><div class="dialog-gallery">${cards}</div></div>`;
   }
   if (kind === 'rsvp') {
-    return `<div class="dialog-body"><p class="dialog-eyebrow">KINDLY REPLY BY ${safeText(wedding.rsvpDeadline).toUpperCase()}</p><h2 class="dialog-title" id="dialogTitle">Will you join <em>us?</em></h2><p class="dialog-copy">Your presence would mean the world to us.</p><form class="rsvp-form" id="rsvpForm"><label>YOUR NAME<input name="name" autocomplete="name" required placeholder="Full name"></label><label>EMAIL ADDRESS (OPTIONAL)<input name="email" type="email" autocomplete="email" placeholder="you@example.com"></label><fieldset><legend>WILL YOU BE THERE?</legend><label><input type="radio" name="attendance" value="Joyfully accepts" required> Joyfully accepts</label><label><input type="radio" name="attendance" value="Regretfully declines"> Regretfully declines</label></fieldset><label>NUMBER OF GUESTS<select name="guests"><option value="1">Just me</option><option value="2">2 guests</option><option value="3">3 guests</option><option value="4">4 guests</option></select></label><label>NOTES (OPTIONAL)<textarea name="notes" rows="2" placeholder="Anything we should know?"></textarea></label><button class="rsvp-submit" type="submit">SEND YOUR REPLY</button><p class="form-status" id="formStatus">Demo form — replies are saved in this browser only.</p></form></div>`;
+    const rsvp = weddingData.rsvp || {};
+    if (rsvp.enabled === false) return `<div class="dialog-body"><h2 class="dialog-title" id="dialogTitle">RSVP</h2><p class="dialog-copy">RSVP details will be shared soon.</p></div>`;
+    const deadline = isPlaceholder(rsvp.deadline || wedding.rsvpDeadline) ? 'RSVP DEADLINE TO BE CONFIRMED' : `KINDLY REPLY BY ${safeText(rsvp.deadline || wedding.rsvpDeadline).toUpperCase()}`;
+    const events = (rsvp.events || []).map(event => {
+      const dateLabel = event.date ? new Date(`${event.date}T12:00:00`).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' }) : '';
+      const timeLabel = event.time ? event.time : '';
+      const tentative = event.timeTentative ? ' · time to be confirmed' : '';
+      const opts = ['Please choose', ...(rsvp.attendanceOptions || ['Attending', 'Unable to attend'])];
+      return `<fieldset class="rsvp-event-field"><legend>${safeText(event.title)}${dateLabel ? ` · ${safeText(dateLabel)}` : ''}${timeLabel ? ` · ${safeText(timeLabel)}` : ''}${tentative ? safeText(tentative) : ''}</legend><label class="rsvp-select-label">Attendance<select name="event_${safeText(event.id)}" required>${opts.map((option,index) => `<option value="${index ? safeText(option) : ''}" ${index === 0 ? 'selected' : ''} ${index === 0 ? 'disabled' : ''}>${safeText(option)}</option>`).join('')}</select></label></fieldset>`;
+    }).join('');
+    const guestOptions = Array.from({ length: Math.max(1, Number(rsvp.allocatedGuestCount) || 2) }, (_, i) => `<option value="${i + 1}">${i + 1} ${i === 0 ? 'guest' : 'guests'}</option>`).join('');
+    const contactField = rsvp.contactNumberRequired ? '<label>CONTACT NUMBER<input name="contactNumber" type="tel" autocomplete="tel" required placeholder="Your phone number"></label>' : '';
+    const guestNote = rsvp.allocatedGuestCount ? `<p class="rsvp-config-note">Please use your allocated guest count of ${safeText(rsvp.allocatedGuestCount)}. Extra guests require prior approval.${rsvp.childrenAllowed ? ' Children are welcome.' : ''}</p>` : '';
+    const confirmation = safeText(rsvp.confirmationMessage || 'Thank you for your reply.');
+    const messageField = rsvp.guestMessageEnabled ? `<label>WISHES &amp; DU’A (OPTIONAL)<textarea name="notes" rows="3" placeholder="${safeText(rsvp.guestMessagePlaceholder || 'Leave a message for the couple')}"></textarea></label>` : '';
+    const appsScriptUrl = isPlaceholder(rsvp.appsScriptUrl) ? '' : rsvp.appsScriptUrl;
+    const whatsappContacts = (couple.contacts || []).filter(contact => contact.whatsappUrl);
+    const whatsappButtons = whatsappContacts.map(contact => `<a class="dialog-link rsvp-whatsapp-link" data-wa-contact="${safeText(contact.name)}" href="${safeText(contact.whatsappUrl)}" target="_blank" rel="noreferrer">SEND RSVP ON WHATSAPP · ${safeText(contact.name).toUpperCase()} ↗</a>`).join('');
+    return `<div class="dialog-body"><p class="dialog-eyebrow">${deadline}</p><h2 class="dialog-title" id="dialogTitle">Will you join <em>us?</em></h2><p class="dialog-copy">Your presence and prayers mean the world to us.</p><form class="rsvp-form" id="rsvpForm" data-endpoint="${safeText(appsScriptUrl)}"><label>GUEST FULL NAME<input name="name" autocomplete="name" required placeholder="Full name"></label>${contactField}${events}<label>NUMBER OF GUESTS<select name="guests">${guestOptions}</select></label>${messageField}${guestNote}<p class="rsvp-config-note rsvp-confirmation" id="rsvpConfirmation" hidden>${confirmation}</p><button class="rsvp-submit" type="submit">SUBMIT RSVP</button><p class="form-status" id="formStatus">Your reply will be saved to the couple’s RSVP spreadsheet. After submitting, you can optionally send a WhatsApp confirmation.</p><div class="rsvp-whatsapp-actions" id="rsvpWhatsappActions" hidden><p class="rsvp-config-note">Your form has been submitted. You may also send the details directly on WhatsApp:</p>${whatsappButtons}</div></form></div>`;
   }
   return '';
 }
@@ -183,6 +260,22 @@ document.addEventListener('click', (event) => {
   }
 });
 
+// Make the visible swan artwork and its label reliably open the Details page.
+const swanDetailsLink = document.querySelector('.swan-details');
+if (swanDetailsLink) {
+  const openDetailsFromSwan = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.assign(new URL(swanDetailsLink.getAttribute('href') || 'details/', document.baseURI).href);
+  };
+  swanDetailsLink.querySelectorAll('.swan-svg path, .swan-copy, .swan-copy *').forEach((part) => {
+    part.addEventListener('click', openDetailsFromSwan);
+    part.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') openDetailsFromSwan(event);
+    });
+  });
+}
+
 $('#coverEnvelope').addEventListener('click', openEnvelope);
 $('#coverOpenText').addEventListener('click', openEnvelope);
 $('#dialogClose').addEventListener('click', () => $('#contentDialog').close());
@@ -191,18 +284,54 @@ $('#contentDialog').addEventListener('click', (event) => {
 });
 $('#contentDialog').addEventListener('close', () => { if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; } });
 
-document.addEventListener('submit', (event) => {
+document.addEventListener('submit', async (event) => {
   if (event.target.id !== 'rsvpForm') return;
   event.preventDefault();
   const form = event.target;
+  const endpoint = form.dataset.endpoint;
+  const status = $('#formStatus');
+  const submitButton = form.querySelector('[type="submit"]');
+  const whatsappActions = $('#rsvpWhatsappActions');
+  const confirmation = $('#rsvpConfirmation');
+
+  if (!endpoint || !/^https:\/\/script\.google\.com\/macros\/s\//.test(endpoint)) {
+    if (status) status.textContent = 'Setup required: add your deployed Google Apps Script web app URL to rsvp.appsScriptUrl in data.json before accepting real RSVPs.';
+    return;
+  }
+
   const response = Object.fromEntries(new FormData(form).entries());
   response.submittedAt = new Date().toISOString();
-  const saved = JSON.parse(localStorage.getItem('weddingRsvps') || '[]');
-  saved.push(response);
-  localStorage.setItem('weddingRsvps', JSON.stringify(saved));
-  const status = $('#formStatus');
-  if (status) status.textContent = 'Thank you! Your demo RSVP has been saved in this browser.';
-  form.reset();
+  response.couple = (weddingData.couple?.displayNames || 'Masoom & Miza');
+  if (status) status.textContent = 'Submitting your RSVP…';
+  if (submitButton) submitButton.disabled = true;
+
+  try {
+    // Apps Script does not expose ordinary cross-origin JSON responses to static sites.
+    // no-cors allows a simple form-encoded POST without requiring a paid proxy/backend.
+    const payload = new URLSearchParams();
+    Object.entries(response).forEach(([key, value]) => payload.append(key, String(value ?? '')));
+    await fetch(endpoint, { method: 'POST', mode: 'no-cors', body: payload });
+    if (status) status.textContent = 'Your RSVP request has been sent. You can optionally send the same details directly to the couple on WhatsApp below.';
+    if (confirmation) confirmation.hidden = false;
+    if (whatsappActions) whatsappActions.hidden = false;
+    form.querySelectorAll('.rsvp-whatsapp-link').forEach(link => {
+      const contact = (weddingData.couple?.contacts || []).find(item => item.name === link.dataset.waContact);
+      const message = [
+        `Assalamu’alaikum! My RSVP for ${response.couple}’s wedding:`,
+        `Name: ${response.name || '—'}`,
+        ...((weddingData.rsvp?.events || []).map(item => `${item.title}: ${response[`event_${item.id}`] || 'Not specified'}`)),
+        `Number of guests: ${response.guests || '—'}`,
+        response.contactNumber ? `Contact number: ${response.contactNumber}` : '',
+        response.notes ? `Wishes / du’a: ${response.notes}` : '',
+      ].filter(Boolean).join('\n');
+      if (contact?.whatsappUrl) link.href = `${contact.whatsappUrl}?text=${encodeURIComponent(message)}`;
+    });
+    form.querySelectorAll('input,select,textarea,button[type="submit"]').forEach(control => { control.disabled = true; });
+  } catch (error) {
+    console.error('RSVP submission failed', error);
+    if (status) status.textContent = 'Could not send your RSVP. Please check your internet connection and try again, or contact the couple on WhatsApp.';
+    if (submitButton) submitButton.disabled = false;
+  }
 });
 
 (async function init() {
