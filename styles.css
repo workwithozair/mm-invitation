@@ -141,7 +141,7 @@
 
 /* Swan overlay hit-testing: only the painted swan and its label respond to clicks.
    The transparent rectangle around the artwork stays click-through, so it cannot
-   block the date, location, RSVP, or love-story hotspots beneath/alongside it. */
+   block the date, location, RSVP, or our-story hotspots beneath/alongside it. */
 .swan-details {
   pointer-events: none !important;
   z-index: 22;
@@ -153,7 +153,7 @@
 .swan-details .swan-copy strong,
 .swan-details .swan-copy small { pointer-events: auto; }
 /* Preserve normal navigation even when a link is rendered without JavaScript. */
-.date-card, .story-photo, .story-link { text-decoration: none; }
+.date-card, .story-photo, .story-link, .location-card { text-decoration: none; color: inherit; }
 
 /* Final reference match: keep the collage assets untouched and resize/reposition only the swan. */
 .swan-details {
@@ -529,9 +529,55 @@
 .swan-details .swan-copy * { pointer-events: auto !important; cursor: pointer; }
 
 /* Final swan placement and reliable Details navigation. */
-.swan-details { top: 55.8% !important; }
+.swan-details { left: 22% !important; top: 60% !important; }
 .swan-details .swan-svg path { pointer-events: visiblePainted !important; cursor: pointer; }
 .swan-details .swan-copy, .swan-details .swan-copy * { pointer-events: auto !important; cursor: pointer; }
 
 /* RSVP submission and optional WhatsApp confirmation */
 .rsvp-submit:disabled{opacity:.55;cursor:wait}.rsvp-whatsapp-actions{display:grid;gap:8px;margin-top:8px}.rsvp-whatsapp-actions .rsvp-config-note{font:12px/1.5 var(--sans);color:var(--sage-deep);text-align:center}.rsvp-whatsapp-link{display:block;margin-top:0;text-align:center;font-size:8px}.rsvp-confirmation{padding:10px;background:#eef0e8;color:var(--sage-deep);font:12px/1.5 var(--sans);text-align:center}
+
+/* Location polaroid: keep the photo and venue caption inside the white frame. */
+.location-card{
+  left:74.5%;
+  top:46.2%;
+  width:22.5%;
+  height:17.4%;
+  padding:1.3% 1.3% 1.6%;
+  overflow:hidden;
+  gap:3%;
+  text-align:center;
+  color:#4e4d45;
+  text-decoration:none;
+}
+.location-photo{
+  flex:1 1 auto;
+  height:auto;
+  min-height:0;
+}
+.location-label{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:.2em;
+  width:100%;
+  margin:0;
+  padding:0 1% .2%;
+  flex:0 0 auto;
+  font:italic clamp(7px,1.35cqw,13px)/1.15 var(--serif);
+  color:#4e4d45;
+  letter-spacing:.01em;
+}
+.location-label small{
+  display:block;
+  font:500 clamp(5px,.95cqw,9px)/1 var(--sans);
+  letter-spacing:.14em;
+  color:#6f6e64;
+}
+.location-label span,
+.location-label p{
+  margin:0;
+  max-width:100%;
+  font:italic clamp(7px,1.35cqw,13px)/1.15 var(--serif);
+  color:#4e4d45;
+}

@@ -16,7 +16,7 @@
   const imageOrFallback = (value, fallback) => isPlaceholder(value) ? fallback : value.trim();
   const set = (selector, value) => { const el = $(selector); if (el && value != null) el.textContent = value; };
   const setOptional = (selector, value) => { const el = $(selector); if (!el) return; if (isPlaceholder(value)) { el.hidden = true; return; } el.hidden = false; el.textContent = value; };
-  document.title = page === 'details' ? `Wedding Details — ${displayNames}` : `Our Love Story — ${displayNames}`;
+  document.title = page === 'details' ? `Wedding Details — ${displayNames}` : `Our Story — ${displayNames}`;
   document.querySelectorAll('[data-couple]').forEach(el => el.textContent = displayNames);
   if (page === 'details') {
     set('[data-date-city]', `${wedding.displayDate} · ${wedding.city}`);
@@ -61,7 +61,7 @@
       if (target <= Date.now() && timer) clearInterval(timer);
     };
     update(); timer = setInterval(update, 1000);
-  } else if (page === 'love-story') {
+  } else if (page === 'our-story') {
     set('[data-story-intro]', couple.intro); set('[data-story-copy]', couple.story || couple.intro);
     const assetUrl = (src) => /^(?:https?:|data:|\/)/i.test(String(src)) ? src : `../${src}`;
     const photo = $('[data-couple-photo]'); if (photo) photo.src = assetUrl(imageOrFallback(data.images.couple, 'assets/wedding-couple.jpg'));

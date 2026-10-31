@@ -54,7 +54,7 @@
       "address": "1, Jalan P5/5, Presint 5, 62200 Putrajaya, Wilayah Persekutuan Putrajaya",
       "dressCode": "Traditional or Formal",
       "guestColorTheme": "Champagne",
-      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Glass+Suite+by+Bora+Ombak+Putrajaya",
+      "mapsUrl": "https://maps.app.goo.gl/ewANdPU4Fst2CbKX7",
       "parkingInstructions": "[To confirm]",
       "instructions": "[To confirm]"
     },
@@ -120,15 +120,15 @@
     "backgrounds": {
       "envelope": {
         "image": "assets/water-lilies-envelope.jpeg",
-        "blurPx": 3,
-        "opacity": 0.34,
-        "washOpacity": 0.56
+        "opacity": 0.55,
+        "blurPx": 4,
+        "washOpacity": 0.0
       },
       "opened": {
         "image": "assets/water-lilies-opened.jpeg",
-        "blurPx": 4,
-        "opacity": 0.36,
-        "washOpacity": 0.58
+        "opacity": 0.55,
+        "blurPx": 5,
+        "washOpacity": 0.0
       }
     },
     "backgroundMusic": {
