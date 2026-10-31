@@ -1,62 +1,11 @@
-# Masoom & Meeza — Responsive Wedding Invitation
+# Wedding invitation website
 
-A responsive HTML/CSS/JavaScript recreation of the collage-style wedding invitation shown in the reference screenshots. The desktop collage scales up with the viewport instead of remaining capped at a mobile-sized width. Its type sizes are tied to the collage canvas using CSS container units, so the envelope, postcard, date card, floral elements, swan Details button, RSVP badge, and oval story photo scale together.
+Serve this repository from its root so the pages can load `data.json` and the shared Canva assets.
 
-This is an original implementation inspired by the reference composition, not a pixel-perfect copy of the seller's paid template.
+- `/` — invitation landing page
+- `/envelope/` — envelope page
+- `/details/` — reception details
+- `/our-story/` — story page
+- `/rsvp/` — RSVP form
 
-## Run locally
-The site reads `data.json` with `fetch`, so use a local web server rather than opening `index.html` directly.
-
-```bash
-python3 -m http.server 8000
-```
-
-Open http://localhost:8000.
-
-## Routes
-- `/` — envelope cover and invitation collage
-- `/details/` — separate wedding details page with live countdown and map links
-- `/love-story/` — separate love-story page and memory gallery
-- `/?view=rsvp#opened` — opens the invitation collage and RSVP form
-
-The home page also supports `#opened` to return directly to the opened collage. The date card and pink swan route to `/details/`; the oval portrait and Love Story label route to `/love-story/`; the location postcard opens the configured map URL.
-
-## Customize
-Edit `data.json` to change names, dates, venues, the map URL, contact email, the short story, and gallery entries. The countdown reads `wedding.date` in ISO 8601 format including the intended timezone.
-
-## RSVP limitation
-The RSVP demo saves submissions in the visitor's browser `localStorage`; it does not transmit or centrally collect guest responses. Connect a form provider or backend before using it for a real wedding.
-
-## Assets
-The `assets` folder includes the floral artwork, local wedding-detail photos, and two supplied water-lily paintings used as softly blurred backgrounds. The envelope and opened-collage background image paths, blur, opacity, and white wash are configurable in `data.json` under `images` and `design.backgrounds`. The wedding details, contact links, event-specific maps, colors, RSVP fields, and gallery content are also configured in `data.json`. Placeholder image strings such as `[Main couple photo to be added]` intentionally fall back to local demo images until you replace them. Fonts are loaded from Google Fonts, so internet access is needed for those fonts.
-
-## Free hosting
-Deploy the folder to GitHub Pages, Netlify, or Cloudflare Pages. Keep `index.html`, `styles.css`, `app.js`, `data.json`, `subpages.css`, `subpages.js`, `details/`, `love-story/`, and `assets/` together in the published root.
-
-
-## Recent updates
-- Fixed swan Details button click/touch layer.
-- Slowed the envelope opening and delayed page transition until the animation completes.
-- Replaced demo photo URLs in data.json with deterministic Picsum Photos images.
-- Details and Love Story routes are available at /details/ and /love-story/.
-
-- Updated swan hit-testing so transparent areas of the swan do not block collage links; Details and Love Story cards now have real `href` destinations as well as delegated navigation.
-- Matched the swan's size and placement to the latest reference image while leaving the other collage assets and their positions unchanged; its transparent area remains click-through.
-
-## Entrance and paper-texture update
-- The first-load envelope, bouquet, and polaroid rise gently from below and fade into place.
-- Opening the envelope starts the collage reveal immediately underneath it; there is no deliberate blank-screen pause.
-- The inner liner image no longer slides out of the envelope. The transition focuses on the scrapbook elements emerging into their final positions.
-- Collage elements, Details, and Love Story pages use the same bottom-to-top fade entrance.
-- Sage-green envelopes and panels have subtle paper-grain texture and soft edge shading.
-- Motion respects `prefers-reduced-motion` accessibility settings.
-
-
-## Wedding data and backgrounds
-- The envelope uses `images.envelopeBackground`; the opened collage uses `images.openedBackground`.
-- `design.backgrounds.envelope` and `design.backgrounds.opened` control `blurPx`, `opacity`, and `washOpacity`.
-- RSVP form submissions remain a browser-only demo until a real `rsvp.formUrl` or backend integration is added.
-
-
-## Real RSVP collection (Google Sheets + WhatsApp)
-The RSVP modal now posts form-encoded submissions to a free Google Apps Script web app and offers optional pre-filled WhatsApp messages to Miza or Masoom. Follow `RSVP-GOOGLE-SHEETS-SETUP.md` and set `rsvp.appsScriptUrl` in `data.json` to the deployed `/exec` URL before publishing. Until that URL is configured, the form will explain that setup is required rather than pretending a response was collected.
+The main and envelope pages use the Canva export in `_assets`; Our Story uses `styles.css`, `subpages.css`, and `subpages.js`.

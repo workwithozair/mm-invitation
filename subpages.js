@@ -16,7 +16,7 @@
   const imageOrFallback = (value, fallback) => isPlaceholder(value) ? fallback : value.trim();
   const set = (selector, value) => { const el = $(selector); if (el && value != null) el.textContent = value; };
   const setOptional = (selector, value) => { const el = $(selector); if (!el) return; if (isPlaceholder(value)) { el.hidden = true; return; } el.hidden = false; el.textContent = value; };
-  document.title = page === 'details' ? `Wedding Details — ${displayNames}` : `Our Love Story — ${displayNames}`;
+  document.title = page === 'details' ? `Wedding Details — ${displayNames}` : `Our Story — ${displayNames}`;
   document.querySelectorAll('[data-couple]').forEach(el => el.textContent = displayNames);
   if (page === 'details') {
     set('[data-date-city]', `${wedding.displayDate} · ${wedding.city}`);
