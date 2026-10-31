@@ -141,7 +141,7 @@
 
 /* Swan overlay hit-testing: only the painted swan and its label respond to clicks.
    The transparent rectangle around the artwork stays click-through, so it cannot
-   block the date, location, RSVP, or love-story hotspots beneath/alongside it. */
+   block the date, location, RSVP, or our-story hotspots beneath/alongside it. */
 .swan-details {
   pointer-events: none !important;
   z-index: 22;

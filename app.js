@@ -253,7 +253,7 @@ document.addEventListener('click', (event) => {
       return;
     }
     if (trigger.dataset.modal === 'story') {
-      window.location.href = new URL('love-story/', window.location.href).href;
+      window.location.href = new URL('our-story/', window.location.href).href;
       return;
     }
     showDialog(trigger.dataset.modal);

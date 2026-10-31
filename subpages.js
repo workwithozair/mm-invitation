@@ -61,7 +61,7 @@
       if (target <= Date.now() && timer) clearInterval(timer);
     };
     update(); timer = setInterval(update, 1000);
-  } else if (page === 'love-story') {
+  } else if (page === 'our-story') {
     set('[data-story-intro]', couple.intro); set('[data-story-copy]', couple.story || couple.intro);
     const assetUrl = (src) => /^(?:https?:|data:|\/)/i.test(String(src)) ? src : `../${src}`;
     const photo = $('[data-couple-photo]'); if (photo) photo.src = assetUrl(imageOrFallback(data.images.couple, 'assets/wedding-couple.jpg'));

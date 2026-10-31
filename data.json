@@ -120,15 +120,15 @@
     "backgrounds": {
       "envelope": {
         "image": "assets/water-lilies-envelope.jpeg",
-        "blurPx": 3,
-        "opacity": 0.34,
-        "washOpacity": 0.56
+        "opacity": 0.55,
+        "blurPx": 4,
+        "washOpacity": 0.30
       },
       "opened": {
         "image": "assets/water-lilies-opened.jpeg",
-        "blurPx": 4,
-        "opacity": 0.36,
-        "washOpacity": 0.58
+        "opacity": 0.55,
+        "blurPx": 5,
+        "washOpacity": 0.32
       }
     },
     "backgroundMusic": {
