@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f2e9">
   <title>Our Story</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -12,16 +12,16 @@
 </head>
 <body>
   <div class="story-shell">
-    <header class="topbar"><a class="brand" href="/#opened">M<span>✳</span>M</a><nav class="nav"><a href="/#opened">Invitation</a><a href="/details/index.html">Details</a><a href="/rsvp/index.html">RSVP</a></nav></header>
+    <header class="topbar"><a class="brand" href="../#opened">M<span>✳</span>M</a><nav class="nav"><a href="../#opened">Invitation</a><a href="../details/index.html">Details</a><a href="../rsvp/index.html">RSVP</a></nav></header>
     <main>
       <section class="hero"><p class="eyebrow">A LITTLE ABOUT US</p><h1>Our <em>Story</em></h1><p class="hero-meta" id="heroMeta"></p><div class="ornament"></div></section>
-      <section class="feature"><figure class="photo-wrap"><img id="couplePhoto" src="/assets/wedding-couple.jpg" alt="Masoom and Miza"><figcaption id="photoCaption">A moment we want to remember</figcaption></figure><div class="copy"><p class="eyebrow">HOW IT ALL BEGAN</p><h2 id="copyHeading">A story still <em>unfolding</em></h2><div id="storyText"></div><p class="signoff" id="signoff">Masoom &amp; Miza</p></div></section>
+      <section class="feature"><figure class="photo-wrap"><img id="couplePhoto" src="../assets/wedding-couple.jpg" alt="Masoom and Miza"><figcaption id="photoCaption">A moment we want to remember</figcaption></figure><div class="copy"><p class="eyebrow">HOW IT ALL BEGAN</p><h2 id="copyHeading">A story still <em>unfolding</em></h2><div id="storyText"></div><p class="signoff" id="signoff">Masoom &amp; Miza</p></div></section>
       <section class="memories"><p class="eyebrow">LITTLE MOMENTS, BIG MEMORIES</p><h2>Our favourite chapters</h2><div class="memory-grid" id="memoryGrid"></div></section>
-      <section class="closing"><p class="script">And so, our next chapter begins.</p><p>We would love for you to be part of our day.</p><a class="button" href="/details/index.html">EXPLORE THE WEDDING DETAILS</a></section>
+      <section class="closing"><p class="script">And so, our next chapter begins.</p><p>We would love for you to be part of our day.</p><a class="button" href="../details/index.html">EXPLORE THE WEDDING DETAILS</a></section>
     </main>
-    <footer class="footer">WITH LOVE<a href="/#opened">← BACK TO THE INVITATION</a></footer>
+    <footer class="footer">WITH LOVE<a href="../#opened">← BACK TO THE INVITATION</a></footer>
   </div>
   <script>
-  (async()=>{const d=await fetch('/data.json',{cache:'no-store'}).then(r=>r.json()),c=d.couple||{},w=d.wedding||{};document.title=`Our Story — ${c.displayNames||'Masoom & Miza'}`;document.querySelector('#heroMeta').textContent=[c.displayNames,w.displayDate].filter(Boolean).join(' · ');document.querySelector('#signoff').textContent=c.displayNames||`${c.partnerOne||''} & ${c.partnerTwo||''}`;const copy=c.story||c.intro||'';const paragraphs=copy.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);document.querySelector('#storyText').innerHTML=paragraphs.map(t=>`<p>${t.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]))}</p>`).join('');document.querySelector('#couplePhoto').src=(d.images?.couple&&!d.images.couple.startsWith('['))?'/'+d.images.couple.replace(/^\//,''):'/assets/wedding-couple.jpg';document.querySelector('#memoryGrid').innerHTML=(d.gallery||[]).map((x,i)=>{const fallbacks=['/assets/hand-detail.jpg','/assets/water-lilies-envelope.jpeg','/assets/wedding-couple.jpg'];const src=x.src&&!x.src.startsWith('[')?'/'+x.src.replace(/^\//,''):fallbacks[i%fallbacks.length];return `<figure class="memory-card"><img src="${src}" alt="${x.alt||'A wedding memory'}" loading="lazy"><figcaption>${x.caption&&!x.caption.startsWith('[')?x.caption:''}</figcaption></figure>`}).join('')})().catch(e=>console.error('Could not load Our Story data',e));
-  </script><script src="/assets/share.js" defer></script>
+  (async()=>{const d=await fetch('../data.json',{cache:'no-store'}).then(r=>r.json()),c=d.couple||{},w=d.wedding||{};document.title=`Our Story — ${c.displayNames||'Masoom & Miza'}`;document.querySelector('#heroMeta').textContent=[c.displayNames,w.displayDate].filter(Boolean).join(' · ');document.querySelector('#signoff').textContent=c.displayNames||`${c.partnerOne||''} & ${c.partnerTwo||''}`;const copy=c.story||c.intro||'';const paragraphs=copy.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);document.querySelector('#storyText').innerHTML=paragraphs.map(t=>`<p>${t.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]))}</p>`).join('');document.querySelector('#couplePhoto').src=(d.images?.couple&&!d.images.couple.startsWith('['))?new URL('../'+d.images.couple.replace(/^\//,''),document.baseURI).href:'../assets/wedding-couple.jpg';document.querySelector('#memoryGrid').innerHTML=(d.gallery||[]).map((x,i)=>{const fallbacks=['../assets/hand-detail.jpg','../assets/water-lilies-envelope.jpeg','../assets/wedding-couple.jpg'];const src=x.src&&!x.src.startsWith('[')?new URL('../'+x.src.replace(/^\//,''),document.baseURI).href:fallbacks[i%fallbacks.length];return `<figure class="memory-card"><img src="${src}" alt="${x.alt||'A wedding memory'}" loading="lazy"><figcaption>${x.caption&&!x.caption.startsWith('[')?x.caption:''}</figcaption></figure>`}).join('')})().catch(e=>console.error('Could not load Our Story data',e));
+  </script><script src="../assets/share.js" defer></script>
 </body></html>

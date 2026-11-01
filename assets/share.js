@@ -1,6 +1,6 @@
 (async function () {
   let names = 'Masoom & Miza';
-  try { names = (await fetch('/data.json', { cache: 'no-store' }).then(r => r.json())).couple?.displayNames || names; } catch (_) {}
+  try { names = (await fetch(new URL('../data.json', document.currentScript.src), { cache: 'no-store' }).then(r => r.json())).couple?.displayNames || names; } catch (_) {}
   const style = document.createElement('style');
   style.textContent = `.invite-share{position:fixed;z-index:20000;left:18px;bottom:18px;font:14px Arial,sans-serif;color:#41483d}.invite-share button,.invite-share a{box-sizing:border-box;border:1px solid #929b83;background:#fffaf5;color:#41483d;border-radius:999px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}.invite-share-main{width:48px;height:48px;box-shadow:0 3px 16px #0002}.invite-share svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.invite-share-menu{display:none;position:absolute;bottom:58px;left:0;width:180px;padding:8px;background:#fffaf5;border:1px solid #d7d0c2;box-shadow:0 8px 24px #0002}.invite-share.open .invite-share-menu{display:grid;gap:7px}.invite-share-menu a,.invite-share-menu button{border-radius:5px;padding:10px 12px;justify-content:flex-start;font-size:13px}.invite-share-note{font-size:12px;padding:3px 6px;color:#66705d}`;
   document.head.append(style);
