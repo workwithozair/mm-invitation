@@ -67,12 +67,6 @@
     "separateEventRSVP": true,
     "events": [
       {
-        "id": "akad-nikah",
-        "title": "Akad Nikah",
-        "date": "2026-12-12",
-        "time": "08:00"
-      },
-      {
         "id": "wedding-reception",
         "title": "Wedding Reception / Walimatulurus",
         "date": "2026-12-12",
@@ -95,7 +89,8 @@
     "guestMessagePlaceholder": "Leave your wishes and du'a for the couple",
     "confirmationMessage": "We’d love to celebrate with everyone, but as seating is limited, we kindly ask you to follow your allocated guest count. If you’d like to bring someone extra, please let us know early, and we’ll do our best to accommodate. Thank you for your love and understanding!",
     "appsScriptUrl": "https://script.google.com/macros/s/AKfycbzeuwnu8kxjlzHbwIYZmQOvfh8F24wuelnG-vNOYvQ8U9taMMywhq3AMaH7COxn-ZrdtA/exec",
-    "whatsappConfirmationEnabled": true
+    "whatsappConfirmationEnabled": true,
+    "maxGuestCount": 10
   },
   "design": {
     "envelopeKicker": "A LITTLE NOTE FOR YOU",
