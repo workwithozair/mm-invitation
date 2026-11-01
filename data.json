@@ -148,7 +148,8 @@
     "engagement": "[Engagement photo to be added]",
     "envelopeLiner": "[Envelope background image to be added]",
     "envelopeBackground": "assets/water-lilies-envelope.jpeg",
-    "openedBackground": "assets/water-lilies-opened.jpeg"
+    "openedBackground": "assets/water-lilies-opened.jpeg",
+    "sharePreview": "og-image.jpg"
   },
   "gallery": [
     {
