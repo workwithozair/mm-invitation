@@ -241,40 +241,6 @@ window['bootstrap'] = customizeCanvaBootstrap('{"base":{"A?":"B","L":false,"N":f
       };
       addVenueTextToCard();
 
-      const mapLink=document.createElement('a');
-      mapLink.className='sage-location-map-link';
-      mapLink.href=mapUrl;
-      mapLink.target='_blank';
-      mapLink.rel='noopener noreferrer';
-      mapLink.setAttribute('aria-label',`${reception.venue||'The Glass Suite by Bora Ombak'} reception venue`);
-      mapLink.style.cssText='position:fixed;z-index:10040;display:block;background:transparent;cursor:pointer;text-decoration:none;';
-      document.body.append(mapLink);
-      const positionCardMapLink=()=>{
-        if(!cardImage?.isConnected||!venuePhoto.isConnected||!locationLabel?.isConnected||!venueName?.isConnected)return;
-        const cardRect=cardImage.getBoundingClientRect();
-        const photoRect=venuePhoto.getBoundingClientRect();
-        const labelRect=locationLabel.getBoundingClientRect();
-        const venueRect=venueName.getBoundingClientRect();
-        const left=Math.min(cardRect.left,photoRect.left,labelRect.left,venueRect.left);
-        const top=Math.min(cardRect.top,photoRect.top,labelRect.top);
-        const right=Math.max(cardRect.right,photoRect.right,labelRect.right,venueRect.right);
-        mapLink.style.left=`${left}px`;
-        mapLink.style.top=`${top}px`;
-        mapLink.style.width=`${right-left}px`;
-        mapLink.style.height=`${Math.max(cardRect.bottom,photoRect.bottom,labelRect.bottom,venueRect.bottom)-top}px`;
-      };
-      positionCardMapLink();
-      let positionFrame=0;
-      const schedulePosition=()=>{
-        if(positionFrame)return;
-        positionFrame=requestAnimationFrame(()=>{positionFrame=0;positionCardMapLink();});
-      };
-      window.addEventListener('resize',schedulePosition,{passive:true});
-      window.addEventListener('scroll',schedulePosition,{passive:true});
-      if('ResizeObserver'in window){
-        const cardResizeObserver=new ResizeObserver(schedulePosition);
-        [cardImage,venuePhoto,locationLabel,venueName].forEach(element=>cardResizeObserver.observe(element));
-      }
     },120);
   } catch(error) { console.error('Could not update venue card',error); }
 })();

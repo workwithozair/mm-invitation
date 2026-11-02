@@ -142,28 +142,28 @@
   "images": {
     "flowerSpray": "assets/floral-spray.webp",
     "anthuriums": "assets/anthurium-pair.webp",
-    "hand": "[Main couple photo to be added]",
-    "location": "[Venue photo to be added]",
-    "couple": "[Main couple photo to be added]",
-    "engagement": "[Engagement photo to be added]",
-    "envelopeLiner": "[Envelope background image to be added]",
+    "hand": "assets/IMG_2497.JPG",
+    "location": "assets/TheGlassSuiteBoraOmbak.avif",
+    "couple": "assets/IMG_2244.JPG",
+    "engagement": "assets/IMG_2496.JPG",
+    "envelopeLiner": "assets/IMG_2496.JPG",
     "envelopeBackground": "assets/water-lilies-envelope.jpeg",
     "openedBackground": "assets/water-lilies-opened.jpeg",
     "sharePreview": "assets/og-image.jpg"
   },
   "gallery": [
     {
-      "src": "[Gallery photo 1 to be added]",
+      "src": "assets/IMG_2244.JPG",
       "alt": "Masoom and Miza - Wedding Gallery 1",
       "caption": "[To confirm]"
     },
     {
-      "src": "[Gallery photo 2 to be added]",
+      "src": "assets/IMG_2496.JPG",
       "alt": "Masoom and Miza - Wedding Gallery 2",
       "caption": "[To confirm]"
     },
     {
-      "src": "[Gallery photo 3 to be added]",
+      "src": "assets/IMG_2497.JPG",
       "alt": "Masoom and Miza - Wedding Gallery 3",
       "caption": "[To confirm]"
     }
