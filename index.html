@@ -60,6 +60,8 @@
   };
   const shortDate = `${day}.${month}.${year.slice(-2)}`;
   function rewrite(text) {
+    if (text === "click for our\n") return "click for\n";
+    if (text === "story\n") return "Our Story\n";
     if (text === "Love") return "Our";
     if (text === "Romeo \n&Juliet\n") return `${nameOne} &\n${nameTwo}\n`;
     if (text === "J\n") return `${(couple.initials || "M · M").split(" · ")[0]}\n`;
@@ -69,7 +71,13 @@
     if (text === "12.04.27") return shortDate;
     if (text === "April\n") return `${wedding.month || ""}\n`;
     if (text === "2027\n") return `${year}\n`;
-    if (text === "at 1:00 PM\nLake Como, Italy\n") return `at ${time(reception.startTime) || reception.time || ""}\n${reception.venue || ""}\n${wedding.city || ""}\n`;
+    if (text === "at 1:00 PM\nLake Como, Italy\n" || text === "at 1:00 PM\\nLake Como, Italy\\n") {
+      const receptionTime = reception.time || [time(reception.startTime), time(reception.endTime)].filter(Boolean).join(" - ");
+      const receptionAddress = (reception.venue || "")
+        .replace(", 62200 ", "\n62200 ")
+        .replace(", Wilayah Persekutuan ", "\nWilayah Persekutuan ");
+      return `${receptionTime}\n${receptionAddress}\n`;
+    }
     if (text.includes("Our wedding will take place on April 12th, 2027")) {
       return `We look forward to celebrating with you on ${wedding.displayDate || ""} in ${wedding.city || ""}.\n${ceremony.title || ""}: ${ceremony.time || ""} · ${ceremony.venue || ""}.\n${reception.title || ""}: ${reception.time || ""} · ${reception.venue || ""}.\n`;
     }
@@ -128,6 +136,17 @@
         const oldText = textBox.A.map(chunk => chunk.A).join("");
         const newText = rewrite(oldText);
         if (newText !== oldText) {
+          if (value._ === "LBHxVg9ZPklFT6Jt") {
+            const style = textBox.B?.find(run => run?.A && typeof run.A === "object")?.A;
+            if (style?.["font-size"]) style["font-size"].B = "21.5";
+            if (style?.tracking) style.tracking.B = "0.4";
+            if (style?.["text-transform"]) delete style["text-transform"];
+          }
+          if (oldText === "at 1:00 PM\nLake Como, Italy\n" || oldText === "at 1:00 PM\\nLake Como, Italy\\n") {
+            const style = textBox.B?.find(run => run?.A && typeof run.A === "object")?.A;
+            if (style?.["font-size"]) style["font-size"].B = "15.5";
+            if (style?.leading) style.leading.B = "1120";
+          }
           textBox.A[0].A = newText;
           textBox.A.slice(1).forEach(chunk => { chunk.A = ""; });
           syncTextRuns(textBox, oldText, newText);
