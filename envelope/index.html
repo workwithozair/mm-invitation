@@ -191,76 +191,75 @@ window['bootstrap'] = customizeCanvaBootstrap('{"base":{"A?":"B","L":false,"N":f
 </script><script>(async function(){try{const d=await fetch(new URL('data.json',document.baseURI),{cache:'no-store'}).then(r=>r.json()),cfgs=d.design?.backgrounds||{},opened=location.hash==='#opened'||location.hash==='#page-1',cfg=opened?(cfgs.opened||{}):(cfgs.envelope||{}),path=cfg.image||d.images?.envelopeBackground;if(!path)return;const imageUrl=new URL(path.replace(/^\//,''),document.baseURI).href;const layer=document.createElement('div');layer.setAttribute('aria-hidden','true');layer.style.cssText=`position:fixed;inset:-12px;z-index:10000;pointer-events:none;background-image:url("${imageUrl}");background-size:cover;background-position:center;opacity:${Math.min(1,Math.max(.1,Number(cfg.opacity??.55)))*.4};filter:blur(${Math.max(0,Number(cfg.blurPx??0))}px)`;document.body.append(layer);const washOpacity=Math.min(.65,Math.max(0,Number(cfg.washOpacity??.3)))*.65;if(washOpacity>0){const wash=document.createElement('div');wash.setAttribute('aria-hidden','true');wash.style.cssText=`position:fixed;inset:0;z-index:10001;pointer-events:none;background:rgba(255,249,245,${washOpacity})`;document.body.append(wash)}}catch(e){console.error('Could not load the configured invitation background',e)}})();</script><script>(function(){document.addEventListener('click',function(e){const text=(e.target.textContent||'').trim().toLowerCase();if(text==='rsvp'||text==='kindly'){e.preventDefault();e.stopImmediatePropagation();location.assign(new URL('rsvp/index.html',document.baseURI).href)}},true)})();</script><script>(function(){document.addEventListener('click',function(e){const a=document.querySelectorAll('a[href="#page-3"]')[2];if(!a)return;const r=a.getBoundingClientRect(),s=window.innerWidth/1280,left=r.left-260*s,right=r.right+300*s,top=r.top-520*s,bottom=r.bottom+330*s;if(e.clientX>=left&&e.clientX<=right&&e.clientY>=top&&e.clientY<=bottom){e.preventDefault();e.stopImmediatePropagation();location.assign('/our-story/index.html')}},true)})();</script><script src="assets/share.js" defer></script><script>
 (async function(){
   try {
-    if(window.__sageLocationCardInitialized)return;
-    window.__sageLocationCardInitialized=true;
-    const data=await fetch(new URL('data.json',document.baseURI),{cache:'no-store'}).then(response=>response.json());
-    const reception=data.wedding?.reception||{};
-    const mapUrl=reception.mapsUrl||data.wedding?.mapsUrl;
-    let attempts=0;
-    const timer=setInterval(()=>{
-      const venuePhoto=document.querySelector('img[src*="4268230ee56c19cdcf94179a269e4006.png"]')||document.querySelector('img[alt="The Glass Suite by Bora Ombak location"]');
-      let locationLabel=[...document.querySelectorAll('.a_GcMg')].find(node=>node.textContent.trim().toLowerCase()==='location');
-      const cardImages=[...document.querySelectorAll('img[src*="b5f17187e01fb0332e94b0fbea833ed6.png"]')];
-      if(!venuePhoto||!locationLabel||!cardImages.length){if(++attempts>100)clearInterval(timer);return;}
+    if (window.__sageLocationCardInitialized) return;
+    window.__sageLocationCardInitialized = true;
+    const response = await fetch(new URL('data.json', document.baseURI), { cache: 'no-store' });
+    if (!response.ok) throw new Error(`data.json request failed: ${response.status}`);
+    const data = await response.json();
+    const reception = data.wedding?.reception || {};
+    const mapUrl = reception.mapsUrl || data.wedding?.mapsUrl;
+    const locationImage = data.images?.location;
+    let attempts = 0;
+    const timer = setInterval(() => {
+      const labels = [...document.querySelectorAll('.a_GcMg')]
+        .filter(node => node.textContent.trim().toLowerCase() === 'location' && node.getBoundingClientRect().width > 0);
+      if (!labels.length) {
+        if (++attempts > 300) clearInterval(timer);
+        return;
+      }
       clearInterval(timer);
 
-      venuePhoto.src=new URL('assets/TheGlassSuiteBoraOmbak.avif',document.baseURI).href;
-      venuePhoto.alt=`${reception.venue||'Reception venue'} location`;
-      const findLocationLabel=()=>{
-        const photoRect=venuePhoto.getBoundingClientRect();
-        const photoCenter={x:photoRect.left+photoRect.width/2,y:photoRect.top+photoRect.height/2};
-        return [...document.querySelectorAll('.a_GcMg')]
-          .filter(node=>node.textContent.trim().toLowerCase()==='location')
-          .map(node=>({node,rect:node.getBoundingClientRect()}))
-          .filter(item=>item.rect.width>0&&item.rect.height>0)
-          .sort((a,b)=>Math.hypot(a.rect.left+a.rect.width/2-photoCenter.x,a.rect.top+a.rect.height/2-photoCenter.y)-Math.hypot(b.rect.left+b.rect.width/2-photoCenter.x,b.rect.top+b.rect.height/2-photoCenter.y))[0]?.node;
-      };
-      locationLabel=findLocationLabel()||locationLabel;
-      const findCardImage=label=>{
-        const labelRect=label.getBoundingClientRect();
-        return cardImages.reduce((nearest,image)=>{
-          const rect=image.getBoundingClientRect();
-          const distance=Math.hypot(rect.left+rect.width/2-(labelRect.left+labelRect.width/2),rect.top+rect.height/2-(labelRect.top+labelRect.height/2));
-          return !nearest||distance<nearest.distance?{image,distance}:nearest;
-        },null).image;
-      };
-      let cardImage=findCardImage(locationLabel);
-      const bindMapClick=element=>{
-        if(!mapUrl||!element||element.dataset.mapClickBound==='true')return;
-        element.dataset.mapClickBound='true';
-        element.style.cursor='pointer';
-        element.addEventListener('click',event=>{
-          event.preventDefault();
-          event.stopPropagation();
-          window.open(mapUrl,'_blank','noopener,noreferrer');
+      const label = labels[0];
+      const center = rect => ({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+      const labelCenter = center(label.getBoundingClientRect());
+      const cardImages = [...document.querySelectorAll('img._7_i_XA')]
+        .filter(image => image.getBoundingClientRect().width > 0);
+      const nearestImage = cardImages.sort((a, b) => {
+        const distance = image => {
+          const point = center(image.getBoundingClientRect());
+          return Math.hypot(point.x - labelCenter.x, point.y - labelCenter.y);
+        };
+        return distance(a) - distance(b);
+      })[0];
+      const venuePhoto = document.querySelector('img[src*="4268230ee56c19cdcf94179a269e4006.png"]') || nearestImage;
+      if (venuePhoto && locationImage) {
+        venuePhoto.removeAttribute('srcset');
+        venuePhoto.src = new URL(locationImage.replace(/^\//, ''), document.baseURI).href;
+        venuePhoto.alt = `${reception.venue || 'Reception venue'} location`;
+      }
+
+      let venueName = label.parentElement?.querySelector('.sage-location-name');
+      if (!venueName && label.parentElement) {
+        venueName = document.createElement('span');
+        venueName.className = 'sage-location-name';
+        label.parentElement.append(venueName);
+      }
+      if (venueName) {
+        venueName.textContent = reception.venue || '';
+        venueName.style.cssText = 'display:block;margin-top:2px;color:#3f473d;font-size:.82em;line-height:1.15;text-align:center;text-transform:none;white-space:nowrap;';
+        label.parentElement.style.height = 'auto';
+        label.parentElement.style.overflow = 'visible';
+        const textBox = label.closest('.aF9o6Q');
+        if (textBox) { textBox.style.height = '52px'; textBox.style.overflow = 'visible'; }
+        const textFrame = label.closest('[id]');
+        if (textFrame) { textFrame.style.height = '28px'; textFrame.style.overflow = 'visible'; textFrame.style.zIndex = '10020'; }
+      }
+
+      if (mapUrl) {
+        [label, label.parentElement, venuePhoto, venuePhoto?.parentElement].filter(Boolean).forEach(element => {
+          if (element.dataset.mapClickBound === 'true') return;
+          element.dataset.mapClickBound = 'true';
+          element.style.cursor = 'pointer';
+          element.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            window.open(mapUrl, '_blank', 'noopener,noreferrer');
+          });
         });
-      };
-      [cardImage,cardImage.parentElement,venuePhoto,venuePhoto.parentElement,locationLabel].forEach(bindMapClick);
-
-      let venueName;
-      const addVenueTextToCard=()=>{
-        locationLabel=findLocationLabel()||locationLabel;
-        const paragraph=locationLabel.parentElement;
-        if(!paragraph)return;
-        venueName=paragraph.querySelector('.sage-location-name');
-        if(!venueName){
-          venueName=document.createElement('span');
-          venueName.className='sage-location-name';
-          venueName.textContent=reception.venue||'The Glass Suite by Bora Ombak';
-          venueName.style.cssText='display:block;margin-top:2px;color:#3f473d;font-size:.82em;line-height:1.15;text-align:center;text-transform:none;white-space:nowrap;';
-          paragraph.append(venueName);
-          paragraph.style.height='auto';
-          paragraph.style.overflow='visible';
-          const textBox=locationLabel.closest('.aF9o6Q');
-          if(textBox){textBox.style.height='52px';textBox.style.overflow='visible';}
-          const textFrame=locationLabel.closest('[id]');
-          if(textFrame){textFrame.style.height='28px';textFrame.style.overflow='visible';textFrame.style.zIndex='10020';}
-        }
-        return venueName;
-      };
-      addVenueTextToCard();
-
-    },120);
-  } catch(error) { console.error('Could not update venue card',error); }
+      }
+    }, 100);
+  } catch (error) {
+    console.error('Could not update venue card from data.json', error);
+  }
 })();
-</script><script src="assets/invitation-images.js?v=4" defer></script></body></html>
+</script><script src="assets/invitation-images.js?v=4" defer></script><script src="assets/music.js" defer></script></body></html>
