@@ -61,16 +61,23 @@
         audio.addEventListener('pause', () => setPlaying(false));
       }
 
-      let playAfterOpen = false;
-      try {
-        playAfterOpen = sessionStorage.getItem('sage-play-music-after-open') === '1';
-        if (playAfterOpen) sessionStorage.removeItem('sage-play-music-after-open');
-      } catch {}
-      if (playAfterOpen) {
+      const invitationIsOpen = () => {
+        const path = window.location.pathname.replace(/\/+$/, '');
+        return path.endsWith('/envelope') || location.hash === '#opened' || location.hash === '#page-1';
+      };
+      const resumeIfStarted = () => {
+        let musicWasStarted = false;
+        try { musicWasStarted = sessionStorage.getItem('sage-wedding-music-started') === '1'; } catch {}
+        if (!musicWasStarted || !invitationIsOpen() || !audio.paused) return;
         audio.play().then(() => setPlaying(true)).catch(error => {
-          console.info('Browser requires a tap on the music button before playback.', error);
+          console.info('Browser did not resume wedding music automatically.', error);
         });
-      }
+      };
+      resumeIfStarted();
+      window.addEventListener('pageshow', resumeIfStarted);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') resumeIfStarted();
+      });
     })
     .catch(error => console.error('Could not load configured wedding music', error));
 })();
