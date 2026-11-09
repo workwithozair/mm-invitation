@@ -17,10 +17,12 @@
       audio.src = new URL(source.replace(/^\//, ''), document.baseURI).href;
       audio.loop = true;
       audio.preload = 'metadata';
+      audio.autoplay = music.autoplay === true;
       audio.volume = 0.75;
       document.body.append(audio);
 
       let button;
+      let playPrompt;
       const setPlaying = playing => {
         if (!button) return;
         button.innerHTML = icon(playing);
@@ -28,6 +30,32 @@
         button.setAttribute('aria-pressed', String(playing));
         button.setAttribute('aria-label', playing ? 'Turn wedding music off' : 'Turn wedding music on');
         button.title = playing ? 'Turn music off' : 'Turn music on';
+      };
+
+      const hidePlayPrompt = () => {
+        if (!playPrompt) return;
+        playPrompt.remove();
+        playPrompt = undefined;
+      };
+
+      const showPlayPrompt = () => {
+        if (playPrompt || !invitationIsOpen()) return;
+        playPrompt = document.createElement('button');
+        playPrompt.type = 'button';
+        playPrompt.className = 'sage-music-play-prompt';
+        playPrompt.textContent = '♪  Play music';
+        playPrompt.setAttribute('aria-label', 'Play wedding music');
+        playPrompt.style.cssText = 'position:fixed;right:22px;bottom:24px;z-index:10030;border:1px solid #929d85;border-radius:28px;padding:12px 18px;background:#fffaf5;color:#3d463d;font:13px Arial,sans-serif;letter-spacing:.04em;cursor:pointer;box-shadow:0 5px 18px #28312626;';
+        playPrompt.addEventListener('click', async () => {
+          try {
+            await audio.play();
+            hidePlayPrompt();
+            setPlaying(true);
+          } catch (error) {
+            console.warn('Wedding music could not be played. Check browser audio permissions.', error);
+          }
+        });
+        document.body.append(playPrompt);
       };
 
       if (music.showMusicToggle !== false) {
@@ -68,12 +96,18 @@
       const resumeIfStarted = () => {
         let musicWasStarted = false;
         try { musicWasStarted = sessionStorage.getItem('sage-wedding-music-started') === '1'; } catch {}
-        if (!musicWasStarted || !invitationIsOpen() || !audio.paused) return;
-        audio.play().then(() => setPlaying(true)).catch(error => {
+        if ((!musicWasStarted && music.autoplay !== true) || !invitationIsOpen() || !audio.paused) return;
+        audio.play().then(() => {
+          hidePlayPrompt();
+          setPlaying(true);
+        }).catch(error => {
+          showPlayPrompt();
           console.info('Browser did not resume wedding music automatically.', error);
         });
       };
       resumeIfStarted();
+      audio.addEventListener('canplay', resumeIfStarted);
+      audio.addEventListener('playing', hidePlayPrompt);
       window.addEventListener('pageshow', resumeIfStarted);
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') resumeIfStarted();

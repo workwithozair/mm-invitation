@@ -130,7 +130,7 @@
       "enabled": true,
       "track": "wedding-nashid.mp3",
       "audioUrl": "assets/wedding-nashid.mp3",
-      "autoplay": false,
+      "autoplay": true,
       "showMusicToggle": false
     },
     "countdown": {
